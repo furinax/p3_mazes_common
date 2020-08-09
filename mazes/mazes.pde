@@ -6,8 +6,14 @@ Grid g;
 
 void setup(){
   size(800,600);
-  g = new Grid(80, 60);
+  int mazeHeight = 60;
+  int mazeWidth = 80;
+  g = new Grid(mazeWidth, mazeHeight);
   (new HuntAndKill()).on(g);
+  
+  
+  // metrics
+  print("Hunt and Kill deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
 }
 
 void draw() {

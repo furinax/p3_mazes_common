@@ -78,4 +78,18 @@ class Grid {
     }
     
   }
+  
+  Cell[] deadEnds(){
+    ArrayList<Cell> deadends = new ArrayList<Cell>();
+    for( int h = 0; h < cells.length ; h++ )
+    {
+      for( int w = 0 ; w < cells[0].length; w++ ){
+        if( cells[h][w].links().size() == 1 )  
+          deadends.add(cells[h][w]);
+      }
+    }
+    Cell[] retVal = new Cell[deadends.size()];
+    retVal = deadends.toArray(retVal);
+    return retVal;
+  }
 }
