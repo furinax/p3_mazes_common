@@ -6,14 +6,14 @@ Grid g;
 
 void setup(){
   size(800,600);
-  int mazeHeight = 60;
-  int mazeWidth = 80;
+  int mazeHeight = 20;
+  int mazeWidth = 20;
   g = new Grid(mazeWidth, mazeHeight);
-  (new HuntAndKill()).on(g);
+  (new RecursiveBacktracker()).on(g);
   
   
   // metrics
-  print("Hunt and Kill deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
+  print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
 }
 
 void draw() {
