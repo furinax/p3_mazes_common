@@ -9,7 +9,7 @@ void setup(){
   int mazeHeight = 20;
   int mazeWidth = 20;
   g = new Grid(mazeWidth, mazeHeight);
-  (new RecursiveBacktracker()).on(g);
+  (new BinaryTree()).on(g);
   
   
   // metrics
