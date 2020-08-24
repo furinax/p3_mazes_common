@@ -59,6 +59,7 @@ class Grid {
   void onDraw(){
     stroke(255);
     strokeWeight(2);
+    fill(255);
     int MARGIN = 50;
     int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
     int STEP_H = (BOTTOM - TOP) / cells.length;

@@ -1,3 +1,5 @@
+import java.util.Collections;
+
 class Distances {
   Cell root;
   HashMap<Cell, Integer> cells;
@@ -20,5 +22,9 @@ class Distances {
     Cell[] retVal = new Cell[this.cells.keySet().size()];
     retVal = this.cells.keySet().toArray(retVal);
     return retVal;
+  }
+  
+  int maximum() {
+    return Collections.max(this.cells.values());
   }
 }
