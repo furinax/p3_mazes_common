@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class Cell {
   PVector pos;
   Cell up, down, left, right;
@@ -44,4 +46,22 @@ class Cell {
     return arr;
   }
   
+  Distances distances() {
+    Distances retVal = new Distances(this);
+    ArrayList<Cell> frontier = new ArrayList<Cell>(Arrays.asList(this));
+    while( !frontier.isEmpty() ) {
+      ArrayList<Cell> newFrontier = new ArrayList<Cell>();
+      for( Cell c : frontier ) {
+        for( Cell link : c.links()) {
+          if(retVal.cells.keySet().contains(link))
+            continue;
+          retVal.set(link, retVal.get(c) + 1);
+          newFrontier.add(link);
+        }
+      }
+      frontier = newFrontier;
+    }
+    
+    return retVal;
+  }
 }

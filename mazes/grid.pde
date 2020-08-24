@@ -54,6 +54,7 @@ class Grid {
       }
     }
   }
+
   
   void onDraw(){
     stroke(255);
