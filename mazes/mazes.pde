@@ -2,15 +2,22 @@ import java.util.Set;
 import java.util.Iterator;
 
 
-Grid g;
+MaskedGrid g;
 Distances d;
 Colorizer c;
+Mask mask;
 
 void setup(){
   size(800,600);
   int mazeHeight = 20;
   int mazeWidth = 20;
-  g = new Grid(mazeWidth, mazeHeight);
+  mask = new Mask(mazeHeight, mazeWidth);
+  mask.set(1, 1, false);
+  mask.set(3, 3, false);
+  mask.set(5, 5, false);
+  
+  
+  g = new MaskedGrid(mask);
   (new RecursiveBacktracker()).on(g);
   d = g.cells[0][0].distances();
   c = new Colorizer(g, d);
