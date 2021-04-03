@@ -5,6 +5,7 @@ class MaskedGrid extends Grid {
     super(mask.rows, mask.cols);
     this._mask = mask;
     prepareMask();
+    configure(); //reconfigure, how do we avoid this?
   }
   
   void prepareMask() {
@@ -12,7 +13,7 @@ class MaskedGrid extends Grid {
     {
       for( int w = 0 ; w < cells[0].length; w++ ){
         if( !this._mask.get(h, w) )
-          this.cells[h][w].active = false;
+          this.cells[h][w] = null;
       }
     }
   }

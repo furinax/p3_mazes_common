@@ -10,7 +10,9 @@ class Grid {
     if( h < 0 || h > cells.length - 1)
       return null;
     if( w < 0 || w > cells[0].length - 1)
-      return null; 
+      return null;
+    if( cells[h][w] == null )
+      return null;
     return cells[h][w];
   }
   
@@ -47,6 +49,8 @@ class Grid {
     for( int h = 0; h < cells.length ; h++ )
     {
       for( int w = 0 ; w < cells[0].length; w++ ){
+        if( cells[h][w] == null )
+          continue;
         cells[h][w].up = this.get(h-1,w);
         cells[h][w].down = this.get(h+1,w);
         cells[h][w].left = this.get(h,w-1);
@@ -68,6 +72,8 @@ class Grid {
       for( int w = 0 ; w < cells[0].length; w++ ){
         PVector origin = new PVector(LEFT + STEP_W * w, TOP + STEP_H * h);
         Cell current_cell = cells[h][w];
+        if( current_cell == null )
+          continue;
         if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
           line(origin.x, origin.y, origin.x+STEP_W, origin.y);
         if( current_cell.down == null || !current_cell.links().contains(current_cell.down))
@@ -86,6 +92,8 @@ class Grid {
     for( int h = 0; h < cells.length ; h++ )
     {
       for( int w = 0 ; w < cells[0].length; w++ ){
+        if( cells[h][w] == null)
+          continue;
         if( cells[h][w].links().size() == 1 )  
           deadends.add(cells[h][w]);
       }

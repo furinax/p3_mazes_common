@@ -11,6 +11,8 @@ class Distances {
   }
   
   int get(Cell c) {
+    if( c == null )
+      return 0;
     return this.cells.get(c);
   }
   

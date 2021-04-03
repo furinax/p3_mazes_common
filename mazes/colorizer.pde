@@ -20,7 +20,10 @@ class Colorizer {
       for( int w = 0 ; w < this.grid.cells[0].length; w++ ){
         PVector origin = new PVector(LEFT + STEP_W * w, TOP + STEP_H * h);
         Cell current_cell = this.grid.cells[h][w];
-        fill(color(0, 0, 255, 255 * ((maximum - this.distances.get(current_cell) + 1) * .8 / maximum) ));
+        if( current_cell != null )
+          fill(color(0, 0, 255, 255 * ((maximum - this.distances.get(current_cell) + 1) * .8 / maximum) ));
+        else
+          fill(color(0, 0, 0));
         rect(origin.x, origin.y, STEP_W, STEP_H);
       }
     }
