@@ -1,6 +1,8 @@
 import java.util.Set;
 import java.util.Iterator;
 import java.io.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 MaskedGrid g;
 Distances d;
@@ -12,7 +14,7 @@ void setup(){
   int mazeHeight = 20;
   int mazeWidth = 20;
   try {
-    mask = initializeMaskFromFile("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\mask.txt", mazeHeight, mazeWidth);
+    mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\mask.png", mazeHeight, mazeWidth);
     
     g = new MaskedGrid(mask);
     (new RecursiveBacktracker()).on(g);
@@ -26,6 +28,28 @@ void setup(){
     e.printStackTrace();
   }
 }
+
+Mask initializeMaskFromImage(String filename, int mazeHeight, int mazeWidth ) throws FileNotFoundException, IOException {
+  Mask m = new Mask(mazeHeight, mazeWidth);
+  File file = new File(filename);
+  BufferedImage img = ImageIO.read(file);
+  int iwidth          = img.getWidth();
+  int iheight         = img.getHeight();
+  
+  for( int h = 0; h <= mazeHeight; h++){
+    for( int w = 0; w <= mazeWidth; w++){
+      m.set(h, w, img.getRGB((int)map( h, 0, mazeHeight, 0, iheight - 1), (int) map(w, 0, mazeWidth, 0, iwidth - 1) ) != -1);
+     
+      print("x ", (int) (int)map( h, 0, mazeHeight, 0, iheight - 1) , 
+            "y ", (int) map(w, 0, mazeWidth, 0, iwidth - 1), 
+            " pixel value ", 
+                              img.getRGB((int)map( h, 0, mazeHeight, 0, iheight - 1), (int) map(w, 0, mazeWidth, 0, iwidth - 1) ), "\n");
+    }
+  }
+
+  return m;
+}
+
 
 Mask initializeMaskFromFile(String filename, int mazeHeight, int mazeWidth ) throws FileNotFoundException, IOException {
   Mask m = new Mask(mazeHeight, mazeWidth);
