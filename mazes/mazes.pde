@@ -21,8 +21,8 @@ void setup(){
     //(new RecursiveBacktracker()).on(g);
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
-    g = new PolarGrid(mask);
-    
+    g = new PolarGrid(20);
+    (new RecursiveBacktracker()).on(g);
     // metrics
     print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }
