@@ -22,10 +22,10 @@ class PolarGrid extends Grid {
       int previous_count = _rows.get(i - 1).size();
       float estimated_cell_width = circumference / previous_count;
 
-      float ratio = (estimated_cell_width / row_height);
+      float ratio = round(estimated_cell_width / row_height);
 
       int numCells = int(previous_count * ratio);
-      print("numCells ", numCells);
+
       _rows.add( new ArrayList<PolarCell>(numCells));
       for( int j = 0 ; j < numCells; j++ ) {
         _rows.get(i).add(new PolarCell(i, j));
@@ -49,10 +49,15 @@ class PolarGrid extends Grid {
           else
             cell.ccw = _rows.get(row).get(_rows.get(row).size()-1);
             
-          float ratio = _rows.get(row).size() / _rows.get(row-1).size();
+          float ratio = float(_rows.get(row).size()) / _rows.get(row-1).size();
           PolarCell parent = _rows.get(row-1).get(int(col/ratio));
           parent._outward.add(cell);
           cell.inward = parent;
+        }
+        else
+        {
+          PolarCell cell = _rows.get(0).get(0);
+          cell._outward.addAll(_rows.get(1));
         }
       }
     }
@@ -61,6 +66,15 @@ class PolarGrid extends Grid {
   Cell randomCell() {
     int row = int(random(_rows.size()));
     return this._rows.get(row).get(int(random(_rows.get(row).size())));
+  }
+  
+  Cell[] eachCell() {
+    ArrayList<Cell> mergedList = new ArrayList<Cell>();
+    for( int h = 0; h < this._rows.size() ; h++ )
+    {
+      mergedList.addAll(this._rows.get(h));
+    }
+    return mergedList.toArray(new Cell[0]);
   }
   
   int size() {
@@ -81,37 +95,37 @@ void onDraw(){
     int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
     PVector origin = new PVector(width/2, height/2);
 
-    for( int h = 0; h < cells.length ; h++ ){
-      for( int w = 0 ; w < cells[0].length; w++ ){
+    for( int h = 0; h < _rows.size() ; h++ ){
+      for( int w = 0 ; w < _rows.get(h).size(); w++ ){
         
-        Cell current_cell = cells[h][w];
+        PolarCell current_cell = _rows.get(h).get(w);
 
-        if( current_cell == null )
+        if( current_cell == null  || current_cell.pos.x == 0)
           continue;
 
-        float theta = 2*PI/cells[0].length;
+        float theta = 2*PI/_rows.get(h).size();
         int inner_radius = h * CELL_SIZE;
         int outer_radius = (h+1) * CELL_SIZE;
         float theta_ccw = w * theta;
         float theta_cw = (w+1) * theta;
 
-        float ax = origin.x + inner_radius * cos(theta_ccw); 
-        float ay = origin.y + inner_radius * sin(theta_ccw);
-        float bx = origin.x + outer_radius * cos(theta_ccw); 
-        float by = origin.y + outer_radius * sin(theta_ccw);
-        float cx = origin.x + inner_radius * cos(theta_cw); 
-        float cy = origin.y + inner_radius * sin(theta_cw);
-        float dx = origin.x + outer_radius * cos(theta_cw); 
-        float dy = origin.y + outer_radius * sin(theta_cw);
+        float ax = origin.x + int(inner_radius * cos(theta_ccw)); 
+        float ay = origin.y + int(inner_radius * sin(theta_ccw));
+        float bx = origin.x + int(outer_radius * cos(theta_ccw)); 
+        float by = origin.y + int(outer_radius * sin(theta_ccw));
+        float cx = origin.x + int(inner_radius * cos(theta_cw)); 
+        float cy = origin.y + int(inner_radius * sin(theta_cw));
+        float dx = origin.x + int(outer_radius * cos(theta_cw)); 
+        float dy = origin.y + int(outer_radius * sin(theta_cw));
         
-
-        if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
+      
+        if( current_cell.inward == null || !current_cell.links().contains(current_cell.inward))
           arc(origin.x, origin.y, 2*inner_radius, 2*inner_radius, theta_ccw, theta_cw);
-        if( current_cell.down == null || !current_cell.links().contains(current_cell.down))
+        if( current_cell._outward.size() == 0 )
           arc(origin.x, origin.y, 2*outer_radius, 2*outer_radius, theta_ccw, theta_cw);
-        if( current_cell.left == null || !current_cell.links().contains(current_cell.left))
+        if( current_cell.ccw == null || !current_cell.links().contains(current_cell.ccw))
           line(ax, ay, bx, by);
-        if( current_cell.right == null || !current_cell.links().contains(current_cell.right))
+        if( current_cell.cw == null || !current_cell.links().contains(current_cell.cw))
           line(cx, cy, dx, dy);
       }
     }

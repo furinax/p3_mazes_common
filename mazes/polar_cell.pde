@@ -10,7 +10,7 @@ class PolarCell extends Cell {
   }
 
   Cell[] neighbors() {
-    ArrayList<PolarCell> neighbors = new ArrayList<PolarCell>();
+    ArrayList<PolarCell> neighbors = new ArrayList<PolarCell>(); //<>//
     if( this.cw != null )
       neighbors.add(this.cw);
     if( this.ccw != null )
@@ -18,7 +18,7 @@ class PolarCell extends Cell {
     if( this.inward != null )
       neighbors.add(this.inward);
 
-    Collections.addAll(this.outward());
+    neighbors.addAll(this.outward());
     
     Cell[] arr = new Cell[neighbors.size()];
     arr = neighbors.toArray(arr);
