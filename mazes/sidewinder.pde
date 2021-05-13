@@ -1,6 +1,6 @@
 class SideWinder {
   void on(Grid g){
-    for( Cell[] row : g.cells )
+    for( ArrayList<Cell> row : g._cells )
     {
       ArrayList<Cell> run = new ArrayList<Cell>();
        for( Cell cell : row )

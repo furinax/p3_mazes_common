@@ -9,18 +9,18 @@ class MaskedGrid extends Grid {
   }
   
   void prepareMask() {
-    for( int h = 0; h < cells.length ; h++ )
+    for( int h = 0; h < this._height ; h++ )
     {
-      for( int w = 0 ; w < cells[0].length; w++ ){
+      for( int w = 0 ; w < this._width; w++ ){
         if( !this._mask.get(h, w) )
-          this.cells[h][w] = null;
+          this._cells.get(h).set(w, null);
       }
     }
   }
   
   Cell randomCell() {
     PVector p = this._mask.randomLocation();
-    return this.cells[int(p.y)][int(p.x)];
+    return this._cells.get(int(p.y)).get(int(p.x));
   }
   
   int size() {

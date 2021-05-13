@@ -4,8 +4,8 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-PolarGrid g;
-//MaskedGrid g;
+//PolarGrid g;
+MaskedGrid g;
 Distances d;
 Colorizer c;
 Mask mask;
@@ -17,12 +17,12 @@ void setup(){
   try {
     mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
     
-    //g = new MaskedGrid(mask);
-    //(new RecursiveBacktracker()).on(g);
+    g = new MaskedGrid(mask);
+    (new RecursiveBacktracker()).on(g);
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
-    g = new PolarGrid(mazeHeight);
-    (new RecursiveBacktracker()).on(g); //<>//
+    //g = new PolarGrid(mazeHeight);
+    //(new RecursiveBacktracker()).on(g); //<>//
     // metrics
     print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }
