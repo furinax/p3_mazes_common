@@ -73,7 +73,7 @@ class Grid {
     strokeWeight(2);
     fill(255);
     int MARGIN = 50;
-    int LEFT = MARGIN, TOP = MARGIN, RIGHT = _width - MARGIN, BOTTOM = _height - MARGIN;
+    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
     int STEP_H = (BOTTOM - TOP) / this._height;
     int STEP_W = (RIGHT - LEFT) / this._width;
     for( int h = 0; h < this._height ; h++ ){
