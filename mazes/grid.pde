@@ -3,6 +3,8 @@ class Grid {
   int _height;
   int _width;
   
+  PVector _start, _finish;
+  
   Grid() {
   }
   
@@ -10,6 +12,8 @@ class Grid {
     _height = h;
     _width = w;
     _cells = new ArrayList<ArrayList<Cell>>(h);
+    _start = new PVector(0, 0);
+    _finish = new PVector(_height-1, _width-1);
     
     prepare();
     configure();
@@ -73,12 +77,12 @@ class Grid {
     strokeWeight(2);
     fill(255);
     int MARGIN = 50;
-    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
-    int STEP_H = (BOTTOM - TOP) / this._height;
-    int STEP_W = (RIGHT - LEFT) / this._width;
+    int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
+    int STEP_H = (BOTTOM_ - TOP_) / this._height;
+    int STEP_W = (RIGHT_ - LEFT_) / this._width;
     for( int h = 0; h < this._height ; h++ ){
       for( int w = 0 ; w < this._width; w++ ){
-        PVector origin = new PVector(LEFT + STEP_W * w, TOP + STEP_H * h);
+        PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
         Cell current_cell = _cells.get(h).get(w);
         if( current_cell == null )
           continue;
@@ -92,7 +96,16 @@ class Grid {
           line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
       }
     }
-    
+    drawEndpoints(LEFT_, TOP_, RIGHT_, BOTTOM_, STEP_W, STEP_H);
+  }
+  
+  void drawEndpoints(int LEFT_, int TOP_, int RIGHT_, int BOTTOM_, int STEP_W, int STEP_H) {
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    fill(255, 0, 0);
+    text("S", LEFT_ + STEP_W/2, TOP_ + STEP_H/2);
+    fill(0, 255, 0);
+    text("F", RIGHT_ - STEP_W/2, BOTTOM_ - STEP_H/2);
   }
   
   Cell[] deadEnds(){
