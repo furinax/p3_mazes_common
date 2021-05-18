@@ -2,6 +2,7 @@ class Grid {
   ArrayList<ArrayList<Cell>> _cells;
   int _height;
   int _width;
+  Palette _palette;
   
   PVector _start, _finish;
   
@@ -14,6 +15,8 @@ class Grid {
     _cells = new ArrayList<ArrayList<Cell>>(h);
     _start = new PVector(0, 0);
     _finish = new PVector(_height-1, _width-1);
+    
+    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
     
     prepare();
     configure();
@@ -84,8 +87,11 @@ class Grid {
       for( int w = 0 ; w < this._width; w++ ){
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
         Cell current_cell = _cells.get(h).get(w);
+        
         if( current_cell == null )
           continue;
+          
+        _palette.colorizeRowCol(current_cell.pos);
         if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
           line(origin.x, origin.y, origin.x+STEP_W, origin.y);
         if( current_cell.down == null || !current_cell.links().contains(current_cell.down))

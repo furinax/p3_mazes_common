@@ -4,29 +4,39 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
-//PolarGrid g;
-MaskedGrid g;
+Grid g;
 Distances d;
 Colorizer c;
 Mask mask;
 
-void setup(){
-  size(800,600);
+Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeHeight = 10;
   int mazeWidth = 10;
+  mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
+  Grid grid = new MaskedGrid(mask);
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
+Grid obtainPolarGrid() {
+  int mazeRadius = 10;
+  Grid grid = new PolarGrid(mazeRadius);
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
+void setup(){
+  size(800,600);
+
   try {
-    mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
-    
-    g = new MaskedGrid(mask);
-    (new RecursiveBacktracker()).on(g);
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
-    //g = new PolarGrid(mazeHeight);
-    //(new RecursiveBacktracker()).on(g); //<>//
+ //<>//
     // metrics
-    print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
+    //print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }
-  catch(IOException e) {
+  catch(Exception e) {
     e.printStackTrace();
   }
 }
