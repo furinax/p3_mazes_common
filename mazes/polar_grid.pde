@@ -60,11 +60,6 @@ class PolarGrid extends Grid {
       }
     }
   }
-
-  Cell randomCell() {
-    int row = int(random(_cells.size()));
-    return this._cells.get(row).get(int(random(_cells.get(row).size())));
-  }
   
   Cell[] eachCell() {
     ArrayList<Cell> mergedList = new ArrayList<Cell>();

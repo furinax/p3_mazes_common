@@ -25,11 +25,19 @@ Grid obtainPolarGrid() {
   return grid;
 }
 
+Grid obtainHexGrid() {
+  int mazeHeight = 10;
+  int mazeWidth = 10;
+  Grid grid = new HexGrid(mazeHeight, mazeWidth);
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
 void setup(){
   size(800,600);
 
   try {
-    g = obtainMaskedGrid();
+    g = obtainHexGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
  //<>//

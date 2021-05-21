@@ -17,7 +17,7 @@ class Wilsons {
       while(unvisited.indexOf(cell) >= 0 )
       {
         print("\n",cell.pos.x, " " , cell.pos.y);
-         cell = cell.neighbors()[(int)random(cell.neighbors().length)]; //<>//
+         cell = cell.neighbors()[(int)random(cell.neighbors().length)]; //<>// //<>// //<>// //<>//
          int position = path.indexOf(cell);
          if( position >= 0 )
          {
