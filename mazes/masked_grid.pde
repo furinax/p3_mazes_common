@@ -20,7 +20,7 @@ class MaskedGrid extends Grid {
   
   Cell randomCell() {
     PVector p = this._mask.randomLocation();
-    return this._cells.get(int(p.y)).get(int(p.x));
+    return this._cells.get(int(p.x)).get(int(p.y));
   }
   
   int size() {

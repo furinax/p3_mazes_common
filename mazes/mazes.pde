@@ -10,8 +10,8 @@ Colorizer c;
 Mask mask;
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 10;
-  int mazeWidth = 10;
+  int mazeHeight = 100;
+  int mazeWidth = 100;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new RecursiveBacktracker()).on(grid);
@@ -37,10 +37,10 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainHexGrid();
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
- //<>//
+ //<>// //<>//
     // metrics
     //print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }
