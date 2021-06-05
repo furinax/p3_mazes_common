@@ -32,7 +32,8 @@ class HexGrid extends Grid {
         HexCell current_cell = (HexCell) this._cells.get(row).get(col);
         if( col - 1 >= 0 && north_diagonal >= 0 )
           current_cell.nw = (HexCell) this._cells.get(north_diagonal).get(col-1);
-        current_cell.up = this._cells.get(row).get(col);
+        if( row > 0 )  
+          current_cell.up = this._cells.get(row - 1).get(col);
         if( col < _width - 1 && north_diagonal >= 0)
           current_cell.ne = (HexCell)this._cells.get(north_diagonal).get(col+1);
         if( col - 1 >= 0 && south_diagonal < _height - 1)
@@ -47,14 +48,18 @@ class HexGrid extends Grid {
   }
   
 void onDraw(){
-
+    int MARGIN = 50;
+    int CELL_SIZE = 20;
+    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
+    
+    pushMatrix();
+    translate(MARGIN, MARGIN);
+    
     stroke(255);
     strokeWeight(2);
     noFill();
 
-    int MARGIN = 50;
-    int CELL_SIZE = 20;
-    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
+
 
     float a_size = CELL_SIZE / 2.0;
     float b_size = (float)(CELL_SIZE * Math.sqrt(3) / 2.0);
@@ -84,22 +89,22 @@ void onDraw(){
         y_m = cy,
         y_s = parseInt(cy + b_size);
 
-        if( current_cell.sw != null ) 
+        if( current_cell.sw == null ) 
           line(x_fw, y_m, x_nw, y_s);
-        if( current_cell.nw != null ) 
+        if( current_cell.nw == null ) 
           line(x_fw, y_m, x_nw, y_n);
-        if( current_cell.up != null ) 
+        if( current_cell.up == null ) 
           line(x_nw, y_n, x_ne, y_n);
-        if( current_cell.ne != null ) 
+        if( !current_cell.isLinked(current_cell.ne)) 
           line(x_ne, y_n, x_fe, y_m);
-        if( current_cell.se != null ) 
+        if( !current_cell.isLinked(current_cell.se)) 
           line(x_fe, y_m, x_ne, y_s);
-        if( current_cell.down != null ) 
+        if( !current_cell.isLinked(current_cell.down)) 
           line(x_ne, y_s, x_nw, y_s);
 
       }
     }
-    
+    popMatrix();
   }
 
 }
