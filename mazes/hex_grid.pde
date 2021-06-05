@@ -49,8 +49,7 @@ class HexGrid extends Grid {
   
 void onDraw(){
     int MARGIN = 50;
-    int CELL_SIZE = 20;
-    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
+    int CELL_SIZE = int(.6*(min(height, width) - MARGIN * 2)/ max(this._height, this._width));
     
     pushMatrix();
     translate(MARGIN, MARGIN);
@@ -63,7 +62,6 @@ void onDraw(){
 
     float a_size = CELL_SIZE / 2.0;
     float b_size = (float)(CELL_SIZE * Math.sqrt(3) / 2.0);
-    int CELL_WIDTH = CELL_SIZE * 2;
     int CELL_HEIGHT = parseInt(b_size * 2);
 
 
