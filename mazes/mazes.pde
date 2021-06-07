@@ -33,14 +33,22 @@ Grid obtainHexGrid() {
   return grid;
 }
 
+Grid obtainTriangleGrid() {
+  int mazeHeight = 10;
+  int mazeWidth = 10;
+  Grid grid = new TriangleGrid(mazeHeight, mazeWidth);
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+ //<>//
 void setup(){
   size(800,600);
 
   try {
-    g = obtainMaskedGrid();
+    g = obtainTriangleGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
- //<>// //<>//
+ //<>//
     // metrics
     //print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }
