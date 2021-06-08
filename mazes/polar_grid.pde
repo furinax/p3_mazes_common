@@ -80,7 +80,7 @@ class PolarGrid extends Grid {
   
 void onDraw(){
 
-    stroke(255);
+    stroke(0);
     strokeWeight(2);
     noFill();
     int MARGIN = 50;

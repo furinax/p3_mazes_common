@@ -19,7 +19,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
 }
 
 Grid obtainPolarGrid() {
-  int mazeRadius = 10;
+  int mazeRadius = 14;
   Grid grid = new PolarGrid(mazeRadius);
   (new RecursiveBacktracker()).on(grid);
   return grid;
@@ -45,7 +45,7 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainTriangleGrid();
+    g = obtainPolarGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
  //<>//
@@ -97,7 +97,7 @@ Mask initializeMaskFromFile(String filename, int mazeHeight, int mazeWidth ) thr
 }
 
 void draw() {
-  background(0);
+  background(255);
   g.onDraw();
   //c.onDraw();
 }
