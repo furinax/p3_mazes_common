@@ -45,10 +45,10 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainPolarGrid();
+    g = obtainTriangleGrid();
     //d = g.cells[0][0].distances();
     //c = new Colorizer(g, d);
- //<>//
+
     // metrics
     //print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
   }

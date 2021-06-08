@@ -4,6 +4,7 @@ class HexGrid extends Grid {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
     this._width = cols;
+    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
     prepare();
     configure();
   }
@@ -18,8 +19,8 @@ class HexGrid extends Grid {
     }
   }
   
-  void configure() {
-    for( int row = 0; row < _cells.size(); row++){ //<>//
+  void configure() { //<>//
+    for( int row = 0; row < _cells.size(); row++){
       for( int col = 0; col < _cells.get(row).size(); col++){
         int north_diagonal, south_diagonal;
         if( col % 2 == 0) {
@@ -30,6 +31,7 @@ class HexGrid extends Grid {
           south_diagonal = row + 1;
         }
         HexCell current_cell = (HexCell) this._cells.get(row).get(col);
+        
         if( col - 1 >= 0 && north_diagonal >= 0 )
           current_cell.nw = (HexCell) this._cells.get(north_diagonal).get(col-1);
         if( row > 0 )  
@@ -54,7 +56,7 @@ void onDraw(){
     pushMatrix();
     translate(MARGIN, MARGIN);
     
-    stroke(255);
+    stroke(0);
     strokeWeight(2);
     noFill();
 
@@ -68,6 +70,7 @@ void onDraw(){
     for( int h = 0; h < _cells.size() ; h++ ){
       for( int w = 0 ; w < _cells.get(h).size(); w++ ){
         HexCell current_cell = (HexCell)this._cells.get(h).get(w);
+        _palette.colorizeRowCol(current_cell.pos);
         int cx = parseInt(CELL_SIZE + 3 * current_cell.pos.y * a_size);
         int cy = parseInt(b_size + current_cell.pos.x * CELL_HEIGHT);
         if( current_cell.pos.y % 2 == 1 )

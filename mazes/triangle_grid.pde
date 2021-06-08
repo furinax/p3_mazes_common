@@ -4,6 +4,7 @@ class TriangleGrid extends Grid {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
     this._width = cols;
+    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
     prepare();
     configure();
   }
@@ -56,6 +57,7 @@ void onDraw(){
     for( int h = 0; h < _cells.size() ; h++ ){
       for( int w = 0 ; w < _cells.get(h).size(); w++ ){
         TriangleCell current_cell = (TriangleCell)this._cells.get(h).get(w);
+        _palette.colorizeRowCol(current_cell.pos);
         
         float cx = half_width + current_cell.pos.y * half_width;
         float cy = half_height + current_cell.pos.x * cell_height;

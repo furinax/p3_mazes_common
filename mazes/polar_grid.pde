@@ -3,6 +3,7 @@ class PolarGrid extends Grid {
   PolarGrid(int rows) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
+    _palette = new Palette(_height, _height, color(200, 50, 50), color(0, 120, 120), color(0, 0, 255));
     prepare();
     configure();
   }
@@ -95,7 +96,8 @@ void onDraw(){
 
         if( current_cell == null  || current_cell.pos.x == 0)
           continue;
-
+        _palette.colorizeRow(current_cell.pos);
+        
         float theta = 2*PI/_cells.get(h).size();
         int inner_radius = h * CELL_SIZE;
         int outer_radius = (h+1) * CELL_SIZE;
