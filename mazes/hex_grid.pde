@@ -42,7 +42,7 @@ class HexGrid extends Grid {
           current_cell.sw = (HexCell)this._cells.get(south_diagonal).get(col-1);
         if( row < _height - 1 )
           current_cell.down = this._cells.get(row + 1).get(col);
-        if( col < _width - 1 && south_diagonal < _height - 1)
+        if( col < _width - 1 && south_diagonal < _height)
           current_cell.se = (HexCell)this._cells.get(south_diagonal).get(col+1);
         
       }
