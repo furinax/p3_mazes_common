@@ -27,7 +27,7 @@ Grid obtainPolarGrid() {
 
 Grid obtainHexGrid() {
   int mazeHeight = 10;
-  int mazeWidth = 10;
+  int mazeWidth = 15;
   Grid grid = new HexGrid(mazeHeight, mazeWidth);
   (new RecursiveBacktracker()).on(grid);
   return grid;
