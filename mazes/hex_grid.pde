@@ -4,7 +4,7 @@ class HexGrid extends Grid {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
     this._width = cols;
-    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
+    _palette = new Palette(_height, _width, color(255, 100, 0), color(0, 255, 0), color(0, 100, 255));
     prepare();
     configure();
   }
@@ -38,7 +38,7 @@ class HexGrid extends Grid {
           current_cell.up = this._cells.get(row - 1).get(col);
         if( col < _width - 1 && north_diagonal >= 0)
           current_cell.ne = (HexCell)this._cells.get(north_diagonal).get(col+1);
-        if( col - 1 >= 0 && south_diagonal < _height - 1)
+        if( col - 1 >= 0 && south_diagonal < _height)
           current_cell.sw = (HexCell)this._cells.get(south_diagonal).get(col-1);
         if( row < _height - 1 )
           current_cell.down = this._cells.get(row + 1).get(col);
@@ -51,7 +51,7 @@ class HexGrid extends Grid {
   
 void onDraw(){
     int MARGIN = 50;
-    int CELL_SIZE = int(.6*(min(height, width) - MARGIN * 2)/ max(this._height, this._width));
+    int CELL_SIZE = int(.9*(min(height, width) - MARGIN * 2)/ max(this._height, this._width));
     
     pushMatrix();
     translate(MARGIN, MARGIN);
