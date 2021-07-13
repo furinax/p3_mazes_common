@@ -1,3 +1,5 @@
+import java.util.function.Predicate;
+
 class Grid {
   ArrayList<ArrayList<Cell>> _cells;
   int _height;
@@ -102,7 +104,6 @@ class Grid {
           line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
       }
     }
-    drawEndpoints(LEFT_, TOP_, RIGHT_, BOTTOM_, STEP_W, STEP_H);
   }
   
   void drawEndpoints(int LEFT_, int TOP_, int RIGHT_, int BOTTOM_, int STEP_W, int STEP_H) {
@@ -128,5 +129,27 @@ class Grid {
     Cell[] retVal = new Cell[deadends.size()];
     retVal = deadends.toArray(retVal);
     return retVal;
+  }
+  
+  void braid(float p) {
+    ArrayList<Cell> _deadends_list = new ArrayList<Cell>();
+    Collections.addAll(_deadends_list, deadEnds());
+    Collections.shuffle(_deadends_list);
+    
+    for( Cell c : _deadends_list) {
+      if( c.links.size() != 1 || random(1) > p)
+        continue;
+      
+      ArrayList _bestNeighbors = new ArrayList<Cell>();
+      for( Cell n: c.neighbors() ) {
+        if( !c.isLinked((n)) )
+        {
+          _bestNeighbors.add(n);
+        }
+      }
+      
+      Cell[] best = _bestNeighbors.isEmpty() ? c.neighbors() : (Cell[])_bestNeighbors.toArray(new Cell[0]);
+      c.link(best[(int)random(best.length)], true);
+    }
   }
 }
