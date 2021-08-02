@@ -3,7 +3,7 @@ class PolarGrid extends Grid {
   PolarGrid(int rows) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
-    _palette = new Palette(_height, _height, color(255, 50, 50), color(50, 25, 255), color(0, 0, 255));
+    _palette = new Palette(_height, _height, color(0, 0, 255), color(0, 0, 255), color(0, 0, 255));
     prepare();
     configure();
   }
@@ -84,9 +84,7 @@ void onDraw(){
     stroke(0);
     strokeWeight(2);
     noFill();
-    int MARGIN = 50;
     int CELL_SIZE = 20;
-    int LEFT = MARGIN, TOP = MARGIN, RIGHT = width - MARGIN, BOTTOM = height - MARGIN;
     PVector origin = new PVector(width/2, height/2);
 
     for( int h = 0; h < _cells.size() ; h++ ){
@@ -126,5 +124,5 @@ void onDraw(){
     }
     
   }
-
+  
 }

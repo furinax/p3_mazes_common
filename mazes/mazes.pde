@@ -14,7 +14,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 20;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new RecursiveBacktracker()).on(grid);
+  (new HuntAndKill()).on(grid);
   grid.braid(1.f);
   return grid;
 }
@@ -23,6 +23,7 @@ Grid obtainPolarGrid() {
   int mazeRadius = 14;
   Grid grid = new PolarGrid(mazeRadius);
   (new HuntAndKill()).on(grid);
+  grid.braid(.5f);
   return grid;
 }
 
@@ -41,12 +42,12 @@ Grid obtainTriangleGrid() {
   (new RecursiveBacktracker()).on(grid);
   return grid;
 }
- //<>//
+
 void setup(){
   size(800,600);
 
   try {
-    g = obtainMaskedGrid();
+    g = obtainPolarGrid();
     //d = g.cells[0][0].distances();
 
     // metrics

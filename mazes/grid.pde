@@ -81,10 +81,23 @@ class Grid {
     stroke(255);
     strokeWeight(2);
     fill(255);
+    float inset = 0.25f;
+    if( inset > 0 )
+      onDrawWithInset(inset);
+    else
+      onDrawWithoutInset();
+
+  }
+
+  void onDrawWithInset(float inset) {
+
     int MARGIN = 50;
     int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
     int STEP_H = (BOTTOM_ - TOP_) / this._height;
     int STEP_W = (RIGHT_ - LEFT_) / this._width;
+    int inset_w = int(STEP_W * inset);
+    int inset_h = int(STEP_H * inset);
+
     for( int h = 0; h < this._height ; h++ ){
       for( int w = 0 ; w < this._width; w++ ){
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
@@ -105,6 +118,35 @@ class Grid {
       }
     }
   }
+
+  void onDrawWithoutInset() {
+
+    int MARGIN = 50;
+    int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
+    int STEP_H = (BOTTOM_ - TOP_) / this._height;
+    int STEP_W = (RIGHT_ - LEFT_) / this._width;
+
+    for( int h = 0; h < this._height ; h++ ){
+      for( int w = 0 ; w < this._width; w++ ){
+        PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
+        Cell current_cell = _cells.get(h).get(w);
+        
+        if( current_cell == null )
+          continue;
+          
+        _palette.colorizeRowCol(current_cell.pos);
+        if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
+          line(origin.x, origin.y, origin.x+STEP_W, origin.y);
+        if( current_cell.down == null || !current_cell.links().contains(current_cell.down))
+          line(origin.x, origin.y+STEP_H, origin.x+STEP_W, origin.y+STEP_H);
+        if( current_cell.left == null || !current_cell.links().contains(current_cell.left))
+          line(origin.x, origin.y, origin.x, origin.y+STEP_H);
+        if( current_cell.right == null || !current_cell.links().contains(current_cell.right))
+          line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
+      }
+    }
+    
+  }
   
   void drawEndpoints(int LEFT_, int TOP_, int RIGHT_, int BOTTOM_, int STEP_W, int STEP_H) {
     textSize(32);
@@ -117,9 +159,9 @@ class Grid {
   
   Cell[] deadEnds(){
     ArrayList<Cell> deadends = new ArrayList<Cell>();
-    for( int h = 0; h < this._height ; h++ )
+    for( int h = 0; h < this._cells.size() ; h++ )
     {
-      for( int w = 0 ; w < this._width; w++ ){
+      for( int w = 0 ; w < this._cells.get(h).size(); w++ ){
         if( _cells.get(h).get(w) == null)
           continue;
         if( _cells.get(h).get(w).links().size() == 1 )  
@@ -135,7 +177,6 @@ class Grid {
     ArrayList<Cell> _deadends_list = new ArrayList<Cell>();
     Collections.addAll(_deadends_list, deadEnds());
     Collections.shuffle(_deadends_list);
-    
     for( Cell c : _deadends_list) {
       if( c.links.size() != 1 || random(1) > p)
         continue;
