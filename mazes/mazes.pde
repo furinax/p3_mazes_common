@@ -10,20 +10,20 @@ Colorizer c;
 Mask mask;
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 20;
-  int mazeWidth = 20;
+  int mazeHeight = 50;
+  int mazeWidth = 50;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new HuntAndKill()).on(grid);
-  grid.braid(1.f);
+  //grid.braid(1.f);
   return grid;
 }
 
 Grid obtainPolarGrid() {
-  int mazeRadius = 14;
+  int mazeRadius = 29;
   Grid grid = new PolarGrid(mazeRadius);
-  (new HuntAndKill()).on(grid);
-  grid.braid(.5f);
+  (new RecursiveBacktracker()).on(grid);
+  grid.braid(0.f);
   return grid;
 }
 
@@ -36,8 +36,8 @@ Grid obtainHexGrid() {
 }
 
 Grid obtainTriangleGrid() {
-  int mazeHeight = 10;
-  int mazeWidth = 10;
+  int mazeHeight = 30;
+  int mazeWidth = 50;
   Grid grid = new TriangleGrid(mazeHeight, mazeWidth);
   (new RecursiveBacktracker()).on(grid);
   return grid;

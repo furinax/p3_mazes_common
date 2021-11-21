@@ -41,7 +41,7 @@ class TriangleGrid extends Grid {
   
 void onDraw(){
     int MARGIN = 50;
-    int CELL_SIZE = int((min(height, width) - MARGIN * 2)/ max(this._height, this._width));
+    int CELL_SIZE = 20;//int((min(height, width) - MARGIN * 2)/ max(this._height, this._width));
     
     float half_width = CELL_SIZE / 2.0;
     float cell_height = (float)(CELL_SIZE * Math.sqrt(3) / 2.0);
