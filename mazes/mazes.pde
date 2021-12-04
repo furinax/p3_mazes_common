@@ -10,8 +10,8 @@ Colorizer c;
 Mask mask;
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 50;
-  int mazeWidth = 50;
+  int mazeHeight = 20;
+  int mazeWidth = 20;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new HuntAndKill()).on(grid);
@@ -47,7 +47,7 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainPolarGrid();
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
