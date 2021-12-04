@@ -81,7 +81,7 @@ class Grid {
     stroke(255);
     strokeWeight(2);
     fill(255);
-    float inset = 0.25f;
+    float inset = 0.1f;
     if( inset > 0 )
       onDrawWithInset(inset);
     else
@@ -106,15 +106,43 @@ class Grid {
         if( current_cell == null )
           continue;
           
+        // cell coordinates with inset
+        float x1 = origin.x, x4 = origin.x + STEP_W;
+        float x2 = x1 + inset_w, x3 = x4 - inset_w;
+        float y1 = origin.y, y4 = origin.y + STEP_H;
+        float y2 = y1 + inset_h, y3 = y4 - inset_h;
+       
         _palette.colorizeRowCol(current_cell.pos);
-        if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
-          line(origin.x, origin.y, origin.x+STEP_W, origin.y);
-        if( current_cell.down == null || !current_cell.links().contains(current_cell.down))
-          line(origin.x, origin.y+STEP_H, origin.x+STEP_W, origin.y+STEP_H);
-        if( current_cell.left == null || !current_cell.links().contains(current_cell.left))
-          line(origin.x, origin.y, origin.x, origin.y+STEP_H);
-        if( current_cell.right == null || !current_cell.links().contains(current_cell.right))
-          line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
+        if( current_cell.links().contains(current_cell.up) ) {
+          line( x2, y1, x2, y2);
+          line( x3, y1, x3, y2);
+        }
+        else {
+          line( x2, y2, x3, y2);
+        }
+        
+        if( current_cell.links().contains( current_cell.down ) ){
+          line( x2, y3, x2, y4);
+          line( x3, y3, x3, y4);
+        }
+        else {
+          line( x2, y3, x3, y3);
+        }
+        
+        if( current_cell.links().contains( current_cell.left )) {
+          line( x1, y2, x2, y2);
+          line( x1, y3, x2, y3);
+        } else {
+          line( x2, y2, x2, y3);
+        }
+        
+        if( current_cell.links().contains( current_cell.right )) {
+          line( x3, y2, x4, y2);
+          line( x3, y3, x4, y3);
+        } else {
+          line( x3, y2, x3, y3);
+        }
+        
       }
     }
   }
