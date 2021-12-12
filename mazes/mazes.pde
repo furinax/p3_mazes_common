@@ -19,6 +19,14 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   return grid;
 }
 
+Grid obtainWeaveGrid(){
+  int mazeHeight = 20;
+  int mazeWidth = 20;
+  Grid grid = new WeaveGrid(mazeHeight, mazeWidth);
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
 Grid obtainPolarGrid() {
   int mazeRadius = 29;
   Grid grid = new PolarGrid(mazeRadius);
@@ -47,7 +55,7 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainMaskedGrid();
+    g = obtainWeaveGrid();
     //d = g.cells[0][0].distances();
 
     // metrics

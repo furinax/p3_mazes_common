@@ -20,8 +20,8 @@ class Grid {
     
     _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
     
-    prepare();
-    configure();
+    //prepare();
+    //configure();
   }
   
   Cell get(int h, int w){
