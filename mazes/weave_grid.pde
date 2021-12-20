@@ -4,6 +4,7 @@ class WeaveGrid extends Grid {
       super(rows, columns);
       underCells = new ArrayList<UnderCell>();
       prepare();
+      super.configure();
   }
   
   void prepare() {
@@ -24,16 +25,17 @@ class WeaveGrid extends Grid {
   
   Cell[] eachCell() {
     Cell[] retVal = new Cell[this._height*_cells.get(0).size() + underCells.size()];
+    int retValInsertionIndex = 0;
     for( int h = 0; h < this._height ; h++ )
     {
       for( int w = 0 ; w < this._width; w++ ){
         retVal[h*this._height + w] = _cells.get(h).get(w);
+        retValInsertionIndex++;
       }
     }
-    int start = this._height*_cells.get(0).size();
-    for( int i = start; i < underCells.size() ; i++ )
+    for( int i = 0; i < underCells.size() ; i++ )
     {
-      retVal[i] = underCells.get(i);
+      retVal[retValInsertionIndex++] = underCells.get(i);
     }
     
     return retVal;

@@ -17,6 +17,9 @@ class OverCell extends Cell {
     Collections.addAll(neighbors, super.neighbors());
     
     if( canTunnelUp() ) neighbors.add(up.up);
+    if( canTunnelDown() ) neighbors.add(down.down);
+    if( canTunnelLeft() ) neighbors.add(left.left);
+    if( canTunnelRight() ) neighbors.add(right.right);
      
     Cell[] arr = new Cell[neighbors.size()];
     arr = neighbors.toArray(arr);

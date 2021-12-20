@@ -19,7 +19,7 @@ class HexGrid extends Grid {
     }
   }
   
-  void configure() { //<>//
+  void configure() { //<>// //<>//
     for( int row = 0; row < _cells.size(); row++){
       for( int col = 0; col < _cells.get(row).size(); col++){
         int north_diagonal, south_diagonal;

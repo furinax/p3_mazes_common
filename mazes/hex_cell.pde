@@ -8,7 +8,7 @@ class HexCell extends Cell {
   }
 
   Cell[] neighbors() {
-    ArrayList<Cell> neighbors = new ArrayList<Cell>(); //<>// //<>//
+    ArrayList<Cell> neighbors = new ArrayList<Cell>(); //<>// //<>// //<>//
     if( this.nw != null )
       neighbors.add(this.nw);
     if( this.up != null )
