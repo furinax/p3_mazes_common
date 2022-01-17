@@ -2,13 +2,11 @@ import java.util.Arrays;
 
 class UnderCell extends Cell {
   PVector pos;
-  OverCell up, down, left, right;
   HashMap<Cell, Boolean> links;
 
   
   UnderCell(OverCell over_cell){
     super((int)over_cell.pos.x, (int)over_cell.pos.y);
-    
     if( over_cell.isHorizontalPassage() )
     {
        this.up = over_cell.up;

@@ -36,10 +36,11 @@ Grid obtainPolarGrid() {
 }
 
 Grid obtainHexGrid() {
-  int mazeHeight = 10;
-  int mazeWidth = 15;
+  int mazeHeight = 16;
+  int mazeWidth = 25;
   Grid grid = new HexGrid(mazeHeight, mazeWidth);
   (new RecursiveBacktracker()).on(grid);
+  grid.braid(0.25f);
   return grid;
 }
 

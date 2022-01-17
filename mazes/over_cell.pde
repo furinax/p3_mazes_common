@@ -1,8 +1,7 @@
 import java.util.Arrays;
 
 class OverCell extends Cell {
-  PVector pos;
-  OverCell up, down, left, right;
+  //OverCell up, down, left, right;
   HashMap<Cell, Boolean> links;
   WeaveGrid grid;
   
@@ -12,7 +11,6 @@ class OverCell extends Cell {
   }
   
   Cell[] neighbors() {
-
     ArrayList<Cell> neighbors = new ArrayList<Cell>();
     Collections.addAll(neighbors, super.neighbors());
     
@@ -20,26 +18,26 @@ class OverCell extends Cell {
     if( canTunnelDown() ) neighbors.add(down.down);
     if( canTunnelLeft() ) neighbors.add(left.left);
     if( canTunnelRight() ) neighbors.add(right.right);
-     
+
     Cell[] arr = new Cell[neighbors.size()];
     arr = neighbors.toArray(arr);
     return arr;
   }
   
   boolean canTunnelUp() {
-    return up != null && up.up != null && up.isHorizontalPassage();
+    return up != null && up.up != null && !(up instanceof UnderCell) && ((OverCell)up).isHorizontalPassage();
   }
   
   boolean canTunnelDown() {
-    return down != null && down.down != null && down.isHorizontalPassage();
+    return down != null && down.down != null && !(down instanceof UnderCell) && ((OverCell)down).isHorizontalPassage();
   }
   
   boolean canTunnelLeft() {
-    return left != null && left.left != null && left.isVerticalPassage();
+    return left != null && left.left != null && !(left instanceof UnderCell) && ((OverCell)left).isVerticalPassage();
   }
   
   boolean canTunnelRight() {
-    return right != null && right.right != null && right.isVerticalPassage();
+    return right != null && right.right != null && !(right instanceof UnderCell) && ((OverCell)right).isVerticalPassage();
   }
   
   boolean isHorizontalPassage() {

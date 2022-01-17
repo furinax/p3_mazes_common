@@ -24,13 +24,13 @@ class WeaveGrid extends Grid {
   }
   
   Cell[] eachCell() {
+
     Cell[] retVal = new Cell[this._height*_cells.get(0).size() + underCells.size()];
     int retValInsertionIndex = 0;
     for( int h = 0; h < this._height ; h++ )
     {
       for( int w = 0 ; w < this._width; w++ ){
-        retVal[h*this._height + w] = _cells.get(h).get(w);
-        retValInsertionIndex++;
+        retVal[retValInsertionIndex++] = _cells.get(h).get(w);
       }
     }
     for( int i = 0; i < underCells.size() ; i++ )
@@ -42,7 +42,6 @@ class WeaveGrid extends Grid {
   }
   
   void onDrawWithInset(float inset) {
-
     int MARGIN = 50;
     int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
     int STEP_H = (BOTTOM_ - TOP_) / this._height;
