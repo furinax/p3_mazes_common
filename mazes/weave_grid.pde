@@ -8,7 +8,7 @@ class WeaveGrid extends Grid {
   }
   
   void prepare() {
-    // will the super class call this?
+
     for( int h = 0; h < this._height ; h++ )
     {
       _cells.add(new ArrayList<Cell>(this._width));

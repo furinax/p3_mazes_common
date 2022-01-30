@@ -18,7 +18,7 @@ class Grid {
     _start = new PVector(0, 0);
     _finish = new PVector(_height-1, _width-1);
     
-    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
+    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 0, 100), color(0, 100, 150));
     
     //prepare();
     //configure();
