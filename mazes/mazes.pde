@@ -14,7 +14,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 20;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new HuntAndKill()).on(grid);
+  (new Kruskals()).on(grid);
   grid.braid(-1f);
   return grid;
 }
