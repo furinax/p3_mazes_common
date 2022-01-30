@@ -15,7 +15,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new HuntAndKill()).on(grid);
-  //grid.braid(1.f);
+  grid.braid(-1f);
   return grid;
 }
 
@@ -56,7 +56,7 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainWeaveGrid();
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
 
     // metrics

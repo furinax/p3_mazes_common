@@ -20,8 +20,8 @@ class Grid {
     
     _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 0, 100), color(0, 100, 150));
     
-    //prepare();
-    //configure();
+    prepare();
+    configure();
   }
   
   Cell get(int h, int w){
@@ -103,7 +103,7 @@ class Grid {
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
         Cell current_cell = _cells.get(h).get(w);
         
-        if( current_cell == null )
+        if( current_cell == null || current_cell.links().isEmpty() )
           continue;
           
         // cell coordinates with inset
@@ -159,7 +159,7 @@ class Grid {
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
         Cell current_cell = _cells.get(h).get(w);
         
-        if( current_cell == null )
+        if( current_cell == null  || current_cell.links().isEmpty() )
           continue;
           
         _palette.colorizeRowCol(current_cell.pos);
@@ -205,20 +205,39 @@ class Grid {
     ArrayList<Cell> _deadends_list = new ArrayList<Cell>();
     Collections.addAll(_deadends_list, deadEnds());
     Collections.shuffle(_deadends_list);
-    for( Cell c : _deadends_list) {
-      if( c.links.size() != 1 || random(1) > p)
-        continue;
-      
-      ArrayList _bestNeighbors = new ArrayList<Cell>();
-      for( Cell n: c.neighbors() ) {
-        if( !c.isLinked((n)) )
+    
+    if( p > 0 ) {
+      for( Cell c : _deadends_list) {
+        if( c.links.size() != 1 || random(1) > p)
+          continue;
+        
+        ArrayList _bestNeighbors = new ArrayList<Cell>();
+        for( Cell n: c.neighbors() ) {
+          if( !c.isLinked((n)) )
+          {
+            _bestNeighbors.add(n);
+          }
+        }
+        
+        Cell[] best = _bestNeighbors.isEmpty() ? c.neighbors() : (Cell[])_bestNeighbors.toArray(new Cell[0]);
+        c.link(best[(int)random(best.length)], true);
+      }
+    }
+    else if( p < 0) {
+      for( Cell c : _deadends_list) {
+        if( c.links.size() != 1 || random(-1, 0) < p)
+          continue;
+        
+        //make sparse
+        Cell sparse_head = c.links().iterator().next();
+        Cell sparse_tail = c;
+        while( sparse_head.links().size() == 2)
         {
-          _bestNeighbors.add(n);
+          sparse_head.unlink(sparse_tail, true);
+          sparse_tail = sparse_head;
+          sparse_head = sparse_head.links().iterator().next();
         }
       }
-      
-      Cell[] best = _bestNeighbors.isEmpty() ? c.neighbors() : (Cell[])_bestNeighbors.toArray(new Cell[0]);
-      c.link(best[(int)random(best.length)], true);
     }
   }
 }
