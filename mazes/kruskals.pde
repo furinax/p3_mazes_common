@@ -29,31 +29,31 @@ class Kruskals {
     }
     
     boolean canMerge(Cell left, Cell right) {
-      return _setForCell.get(left) != _setForCell.get(right);
+      return (_setForCell.get(left).intValue() != _setForCell.get(right).intValue());
     }
     
     void merge(Cell left, Cell right) {
-      print( "merge " + left + " " + right + "\n");
+
       left.link(right, true);
       
       int winner = _setForCell.get(left);
       int loser = _setForCell.get(right);
+      
       ArrayList<Cell> losers = new ArrayList<Cell>();
-      print( "cells in set loser" + _cellsInSet.get(loser));
-      losers.addAll(_cellsInSet.get(loser));
-      losers.add(right);
+
+      if( !_cellsInSet.get(loser).isEmpty() )
+        losers.addAll(_cellsInSet.get(loser));
+      else
+        losers.add(right);
       
       ArrayList<Cell> toAdd = new ArrayList<Cell>();
       for( Cell c : losers )
       {
-        //_cellsInSet.get(winner).add(c);
         toAdd.add(c);
         _setForCell.put(c, winner);
       }
       
-      print( "cells in set winner " + _cellsInSet.get(winner));
       _cellsInSet.get(winner).addAll(toAdd);
-      
       _cellsInSet.remove(loser);
     }
     
@@ -69,7 +69,7 @@ class Kruskals {
     
     while( !neighbors.isEmpty() ) {
       Pair<Cell, Cell> n = neighbors.pop();
-      if( _state.canMerge(n.getKey(), n.getValue()));
+      if( _state.canMerge(n.getKey(), n.getValue()))
         _state.merge(n.getKey(), n.getValue());
     }
   }
