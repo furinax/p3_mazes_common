@@ -18,7 +18,7 @@ class Grid {
     _start = new PVector(0, 0);
     _finish = new PVector(_height-1, _width-1);
     
-    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 0, 100), color(0, 100, 150));
+    _palette = new Palette(_height, _width, color(204, 85, 0), color(204, 85, 0), color(204, 85, 0));
     
     prepare();
     configure();
@@ -104,8 +104,8 @@ class Grid {
         Cell current_cell = _cells.get(h).get(w);
         
         if( current_cell == null || current_cell.links().isEmpty() )
-          continue;
-          
+            continue;
+        
         // cell coordinates with inset
         float x1 = origin.x, x4 = origin.x + STEP_W;
         float x2 = x1 + inset_w, x3 = x4 - inset_w;

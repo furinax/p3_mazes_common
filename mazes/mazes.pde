@@ -14,7 +14,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 20;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new Kruskals()).on(grid);
+  (new RecursiveBacktracker()).on(grid);
   //grid.braid(-1f);
   return grid;
 }
@@ -24,6 +24,22 @@ Grid obtainWeaveGrid(){
   int mazeWidth = 20;
   Grid grid = new WeaveGrid(mazeHeight, mazeWidth);
   (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
+Grid obtainKruskalsGrid() {
+  int mazeHeight = 15;
+  int mazeWidth = 15;
+  WeaveGrid grid = new PreconfiguredGrid(mazeHeight, mazeWidth);
+  State state = new State(grid);
+  for( int i = 0 ; i < mazeHeight ; i++ ) {
+    int row = 1 + int(random(mazeHeight - 2));
+    int col = 1 + int(random(mazeWidth - 2));
+    
+    state.addCrossing(grid.get(row, col));
+  }
+  (new Kruskals()).on(grid);
+  grid.braid(-.5);
   return grid;
 }
 
@@ -56,7 +72,7 @@ void setup(){
   size(800,600);
 
   try {
-    g = obtainMaskedGrid();
+    g = obtainKruskalsGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
@@ -107,7 +123,7 @@ Mask initializeMaskFromFile(String filename, int mazeHeight, int mazeWidth ) thr
 }
 
 void draw() {
-  background(255);
+  background(0);
   g.onDraw();
   //c.onDraw();
 }

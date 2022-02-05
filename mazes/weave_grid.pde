@@ -54,7 +54,7 @@ class WeaveGrid extends Grid {
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
         Cell current_cell = _cells.get(h).get(w);
         
-        if( current_cell == null )
+        if( current_cell == null || current_cell.links().isEmpty() )
           continue;
           
         // cell coordinates with inset

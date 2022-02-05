@@ -4,64 +4,9 @@ import java.util.LinkedList;
 
 class Kruskals {
   
-  class State {
-    Grid _grid;
-    ArrayList< Pair<Cell, Cell> > _neighbors;
-    HashMap<Cell, Integer> _setForCell;
-    HashMap<Integer, ArrayList<Cell> > _cellsInSet;
-    
-    State(Grid g) {
-      _grid = g;
-      _neighbors = new ArrayList< Pair<Cell, Cell> >();
-      _setForCell = new HashMap<Cell, Integer>();
-      _cellsInSet = new HashMap<Integer, ArrayList<Cell> >();
-      
-      for( Cell c: _grid.eachCell()) {
-        int set = _setForCell.size();
-        
-        _setForCell.put(c, set);
-        _cellsInSet.put(set, new ArrayList<Cell>(Arrays.asList(c)));
-        if( c.down != null )
-          _neighbors.add( new Pair<Cell, Cell>(c, c.down));
-        if( c.right != null )
-          _neighbors.add(new Pair<Cell, Cell>(c, c.right));
-      }
-    }
-    
-    boolean canMerge(Cell left, Cell right) {
-      return (_setForCell.get(left).intValue() != _setForCell.get(right).intValue());
-    }
-    
-    void merge(Cell left, Cell right) {
-
-      left.link(right, true);
-      
-      int winner = _setForCell.get(left);
-      int loser = _setForCell.get(right);
-      
-      ArrayList<Cell> losers = new ArrayList<Cell>();
-
-      if( !_cellsInSet.get(loser).isEmpty() )
-        losers.addAll(_cellsInSet.get(loser));
-      else
-        losers.add(right);
-      
-      ArrayList<Cell> toAdd = new ArrayList<Cell>();
-      for( Cell c : losers )
-      {
-        toAdd.add(c);
-        _setForCell.put(c, winner);
-      }
-      
-      _cellsInSet.get(winner).addAll(toAdd);
-      _cellsInSet.remove(loser);
-    }
-    
-  }
-  
   State _state;
   
-  void on(Grid g){
+  void on(WeaveGrid g){
     _state = new State(g);
     LinkedList<Pair<Cell, Cell>> neighbors = new LinkedList<Pair<Cell, Cell>>();
     neighbors.addAll(_state._neighbors);

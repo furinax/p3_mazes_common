@@ -1,7 +1,6 @@
 import java.util.Arrays;
 
 class OverCell extends Cell {
-  //OverCell up, down, left, right;
   HashMap<Cell, Boolean> links;
   WeaveGrid grid;
   
