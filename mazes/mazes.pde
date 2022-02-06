@@ -28,8 +28,8 @@ Grid obtainWeaveGrid(){
 }
 
 Grid obtainKruskalsGrid() {
-  int mazeHeight = 15;
-  int mazeWidth = 15;
+  int mazeHeight = 20;
+  int mazeWidth = 20;
   WeaveGrid grid = new PreconfiguredGrid(mazeHeight, mazeWidth);
   State state = new State(grid);
   for( int i = 0 ; i < mazeHeight ; i++ ) {
@@ -39,7 +39,6 @@ Grid obtainKruskalsGrid() {
     state.addCrossing(grid.get(row, col));
   }
   (new Kruskals()).on(grid);
-  grid.braid(-.5);
   return grid;
 }
 

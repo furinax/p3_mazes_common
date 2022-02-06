@@ -39,9 +39,9 @@ class State {
     
     void merge(Cell left, Cell right) {
       left.link(right, true);
-      //print(" merge " + left + " " + right + " ");
-      if( left instanceof UnderCell || right instanceof UnderCell)
-        return;
+      print(" merge " + left + " " + right + "\n");
+      //if( left instanceof UnderCell || right instanceof UnderCell)
+      //  return;
       
       int winner = _setForCell.get(left);
       int loser = _setForCell.get(right);
@@ -62,7 +62,7 @@ class State {
       _cellsInSet.get(winner).addAll(toAdd);
 
       _cellsInSet.remove(loser);
-      print("\n");
+
     }
     
     boolean addCrossing(Cell c) {
@@ -76,13 +76,23 @@ class State {
       if( int(random(2)) == 0) {
         merge( c.left, c);
         merge( c, c.right);
+        
         ((WeaveGrid)_grid).tunnelUnder((OverCell)c);
+        // add UnderCell to the set
+        _setForCell.put( c.up.down, _setForCell.get(c.up));
+        _cellsInSet.get(_setForCell.get(c.up)).add(c.up.down);
+        
         merge(c.up, c.up.down);
         merge(c.down, c.down.up);
       } else {
         merge(c.up, c);
         merge(c, c.down);
+        
         ((WeaveGrid)_grid).tunnelUnder((OverCell)c);
+        // add UnderCell to the set
+        _setForCell.put( c.left.right, _setForCell.get(c.left));
+        _cellsInSet.get(_setForCell.get(c.left)).add(c.left.right);
+        
         merge(c.left, c.left.right);
         merge(c.right, c.right.left);
       }
