@@ -39,9 +39,7 @@ class State {
     
     void merge(Cell left, Cell right) {
       left.link(right, true);
-      print(" merge " + left + " " + right + "\n");
-      //if( left instanceof UnderCell || right instanceof UnderCell)
-      //  return;
+      //print(" merge " + left +":"+ _setForCell.get(left) + " " + right + ":" + _setForCell.get(right) + "\n");
       
       int winner = _setForCell.get(left);
       int loser = _setForCell.get(right);
@@ -79,8 +77,8 @@ class State {
         
         ((WeaveGrid)_grid).tunnelUnder((OverCell)c);
         // add UnderCell to the set
-        _setForCell.put( c.up.down, _setForCell.get(c.up));
-        _cellsInSet.get(_setForCell.get(c.up)).add(c.up.down);
+        _setForCell.put( c.up.down, -1);
+        _cellsInSet.put(-1, new ArrayList<Cell>(Arrays.asList(c.up.down)));
         
         merge(c.up, c.up.down);
         merge(c.down, c.down.up);
@@ -90,8 +88,8 @@ class State {
         
         ((WeaveGrid)_grid).tunnelUnder((OverCell)c);
         // add UnderCell to the set
-        _setForCell.put( c.left.right, _setForCell.get(c.left));
-        _cellsInSet.get(_setForCell.get(c.left)).add(c.left.right);
+        _setForCell.put( c.left.right, -1);
+        _cellsInSet.put(-1, new ArrayList<Cell>(Arrays.asList(c.left.right)));
         
         merge(c.left, c.left.right);
         merge(c.right, c.right.left);
