@@ -8,14 +8,15 @@ Grid g;
 Distances d;
 Colorizer c;
 Mask mask;
+Palette palette = new RainbowPalette(30, 50, color(255, 50, 170), color(100, 100, 200), color(200, 200, 50));
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 20;
-  int mazeWidth = 20;
+  int mazeHeight = 40;
+  int mazeWidth = 40;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new RecursiveBacktracker()).on(grid);
-  //grid.braid(-1f);
+  grid.braid(-1f);
   return grid;
 }
 
@@ -63,15 +64,16 @@ Grid obtainTriangleGrid() {
   int mazeHeight = 30;
   int mazeWidth = 50;
   Grid grid = new TriangleGrid(mazeHeight, mazeWidth);
+  grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);
   return grid;
 }
 
 void setup(){
   size(800,600);
-
+  
   try {
-    g = obtainKruskalsGrid();
+    g = obtainTriangleGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
@@ -121,8 +123,22 @@ Mask initializeMaskFromFile(String filename, int mazeHeight, int mazeWidth ) thr
   return m;
 }
 
+void drawLogo() {
+  fill(255, 100, 100, 200);
+  textSize(42);
+  text("@mazes4fun", 25, height-10);
+}
+
+void update() {
+  g._palette._c1 = int(#FF0000 * (.5 * sin(millis() / 5000.f) + .5));
+  g._palette._c3 = int(#0000FF * (.5 * cos(millis() / 5000.f) + .5));
+}
+
 void draw() {
-  background(0);
+  background(255);
   g.onDraw();
+  drawLogo();
   //c.onDraw();
+  //update();
+
 }

@@ -5,8 +5,8 @@ class Grid {
   int _height;
   int _width;
   Palette _palette;
-  
-  PVector _start, _finish;
+  Arrow _startArrow;
+  Arrow _finishArrow;
   
   Grid() {
   }
@@ -15,10 +15,8 @@ class Grid {
     _height = h;
     _width = w;
     _cells = new ArrayList<ArrayList<Cell>>(h);
-    _start = new PVector(0, 0);
-    _finish = new PVector(_height-1, _width-1);
     
-    _palette = new Palette(_height, _width, color(204, 85, 0), color(204, 85, 0), color(204, 85, 0));
+    _palette = new Palette(_height, _width, color(0, 255, 0), color(204, 85, 0), color(204, 85, 0));
     
     prepare();
     configure();

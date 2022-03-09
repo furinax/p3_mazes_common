@@ -1,10 +1,16 @@
 class TriangleGrid extends Grid {
 
+    int MARGIN = 50;
+    int CELL_SIZE = 20;
+    
+    float half_width = CELL_SIZE / 2.0;
+    float cell_height = (float)(CELL_SIZE * Math.sqrt(3) / 2.0);
+    float half_height = cell_height / 2.0;
+  
   TriangleGrid(int rows, int cols) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
     this._width = cols;
-    _palette = new Palette(_height, _width, color(255, 0, 0), color(0, 255, 0), color(0, 0, 255));
     prepare();
     configure();
   }
@@ -15,6 +21,7 @@ class TriangleGrid extends Grid {
       _cells.add(new ArrayList<Cell>(this._width));
       for( int w = 0 ; w < this._width; w++ ){
         _cells.get(h).add(new TriangleCell(h, w));
+        
       }
     }
   }
@@ -37,15 +44,13 @@ class TriangleGrid extends Grid {
         }
       }
     }
+    _startArrow = new Arrow(color(0, 255, 0), new PVector(10, 10));
+    _finishArrow = new Arrow(color(255, 0, 0), new PVector(half_width * this._width + 30, cell_height * this._height + 20));
+    
   }
   
 void onDraw(){
-    int MARGIN = 50;
-    int CELL_SIZE = 20;//int((min(height, width) - MARGIN * 2)/ max(this._height, this._width));
-    
-    float half_width = CELL_SIZE / 2.0;
-    float cell_height = (float)(CELL_SIZE * Math.sqrt(3) / 2.0);
-    float half_height = cell_height / 2.0;
+
     
     pushMatrix();
     translate(MARGIN, MARGIN);
@@ -91,6 +96,8 @@ void onDraw(){
         
       }
     }
+    _startArrow.draw();
+    _finishArrow.draw();
     popMatrix();
   }
 
