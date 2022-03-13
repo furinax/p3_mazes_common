@@ -4,7 +4,6 @@ class PolarGrid extends Grid {
   PolarGrid(int rows) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
-    //_palette = new Palette(_height, _height, color(0, 200, 0), color(50, 200, 200), color(200, 0, 0));
     prepare();
     configure();
   }
@@ -94,12 +93,16 @@ class PolarGrid extends Grid {
   }
   
 void onDraw(){
-
+    PVector origin = new PVector(width/2, height/2);
+    fill(255);
+    noStroke();
+    circle(origin.x, origin.y, _cells.size()*CELL_SIZE*2 );
+    
     stroke(0);
     strokeWeight(2);
     noFill();
     
-    PVector origin = new PVector(width/2, height/2);
+    
 
     for( int h = 0; h < _cells.size() ; h++ ){
       for( int w = 0 ; w < _cells.get(h).size(); w++ ){

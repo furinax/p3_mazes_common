@@ -93,6 +93,7 @@ class Grid {
     strokeWeight(2);
     fill(255);
     
+    
    
     for( int h = 0; h < this._height ; h++ ){
       for( int w = 0 ; w < this._width; w++ ){
@@ -101,6 +102,11 @@ class Grid {
         
         if( current_cell == null  || current_cell.links().isEmpty() )
           continue;
+          
+        //draw background
+        noStroke();
+        rect(origin.x, origin.y, STEP_W, STEP_H);
+          
           
         _palette.colorizeRowCol(current_cell.pos);
         if( current_cell.up == null || !current_cell.links().contains(current_cell.up))

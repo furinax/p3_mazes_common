@@ -74,7 +74,7 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainMaskedGrid();
+    g = obtainPolarGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
@@ -136,7 +136,7 @@ void update() {
 }
 
 void draw() {
-  background(255);
+  background(0);
   g.onDraw();
   drawLogo();
   //c.onDraw();
