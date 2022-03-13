@@ -113,5 +113,7 @@ class WeaveGrid extends Grid {
         
       }
     }
+      _startArrow.draw();
+        _finishArrow.draw();
   }
 }

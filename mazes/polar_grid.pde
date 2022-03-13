@@ -1,9 +1,10 @@
 class PolarGrid extends Grid {
-
+  int CELL_SIZE = 13;
+  
   PolarGrid(int rows) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
-    _palette = new Palette(_height, _height, color(0, 200, 0), color(50, 200, 200), color(200, 0, 0));
+    //_palette = new Palette(_height, _height, color(0, 200, 0), color(50, 200, 200), color(200, 0, 0));
     prepare();
     configure();
   }
@@ -60,6 +61,19 @@ class PolarGrid extends Grid {
         }
       }
     }
+    
+    
+    PVector origin = new PVector(width/2, height/2);
+    float theta = 2*PI/_cells.get(_cells.size() - 1 ).size();
+    int inner_radius = _cells.size()  * CELL_SIZE;
+    float theta_ccw = _cells.get(0).size()  * theta;
+
+     _startArrow = new Arrow(color(0, 255, 0), 
+       new PVector(origin.x - int(inner_radius * cos(theta_ccw)), 
+       origin.y - int(inner_radius * sin(theta_ccw))));
+    _finishArrow = new Arrow(color(255, 0, 0), 
+      new PVector(origin.x + int(inner_radius * cos(theta_ccw) + 2 * CELL_SIZE), 
+      origin.y + int(inner_radius * sin(theta_ccw))));
   }
   
   Cell[] eachCell() {
@@ -84,7 +98,7 @@ void onDraw(){
     stroke(0);
     strokeWeight(2);
     noFill();
-    int CELL_SIZE = 10;
+    
     PVector origin = new PVector(width/2, height/2);
 
     for( int h = 0; h < _cells.size() ; h++ ){
@@ -122,7 +136,8 @@ void onDraw(){
           line(cx, cy, dx, dy);
       }
     }
-    
+     _startArrow.draw();
+    _finishArrow.draw();
   }
   
 }

@@ -8,15 +8,14 @@ Grid g;
 Distances d;
 Colorizer c;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(255, 50, 170), color(100, 100, 200), color(200, 200, 50));
+Palette palette = new RainbowPalette(30, 50, color(128, 0, 128), color(200, 0, 200), color(255,50,20));
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 40;
-  int mazeWidth = 40;
+  int mazeHeight = 20;
+  int mazeWidth = 20;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
   (new RecursiveBacktracker()).on(grid);
-  grid.braid(-1f);
   return grid;
 }
 
@@ -44,17 +43,19 @@ Grid obtainKruskalsGrid() {
 }
 
 Grid obtainPolarGrid() {
-  int mazeRadius = 29;
+  int mazeRadius = 20;
   Grid grid = new PolarGrid(mazeRadius);
+  grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);
   grid.braid(0.f);
   return grid;
 }
 
 Grid obtainHexGrid() {
-  int mazeHeight = 16;
-  int mazeWidth = 25;
+  int mazeHeight = 15;
+  int mazeWidth = 20;
   Grid grid = new HexGrid(mazeHeight, mazeWidth);
+  grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);
   grid.braid(0.25f);
   return grid;
@@ -73,7 +74,7 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainTriangleGrid();
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
 
     // metrics

@@ -8,6 +8,12 @@ class Grid {
   Arrow _startArrow;
   Arrow _finishArrow;
   
+  int MARGIN = 50;
+  int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
+  int STEP_H;
+  int STEP_W;
+    
+  
   Grid() {
   }
   
@@ -15,7 +21,9 @@ class Grid {
     _height = h;
     _width = w;
     _cells = new ArrayList<ArrayList<Cell>>(h);
-    
+    STEP_H = (BOTTOM_ - TOP_) / this._height;
+    STEP_W = (RIGHT_ - LEFT_) / this._width;
+  
     _palette = new Palette(_height, _width, color(0, 255, 0), color(204, 85, 0), color(204, 85, 0));
     
     prepare();
@@ -72,6 +80,11 @@ class Grid {
         _cells.get(h).get(w).right = this.get(h,w+1);
       }
     }
+    
+    _startArrow = new Arrow(color(0, 255, 0), 
+       new PVector(MARGIN + STEP_W / 2, MARGIN + STEP_H / 2));
+    _finishArrow = new Arrow(color(255, 0, 0), 
+      new PVector( STEP_W * this._width + MARGIN + STEP_W / 2, STEP_H * this._height + MARGIN + STEP_H / 2));
   }
 
   
@@ -79,79 +92,8 @@ class Grid {
     stroke(255);
     strokeWeight(2);
     fill(255);
-    float inset = 0.1f;
-    if( inset > 0 )
-      onDrawWithInset(inset);
-    else
-      onDrawWithoutInset();
-
-  }
-
-  void onDrawWithInset(float inset) {
-
-    int MARGIN = 50;
-    int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
-    int STEP_H = (BOTTOM_ - TOP_) / this._height;
-    int STEP_W = (RIGHT_ - LEFT_) / this._width;
-    int inset_w = int(STEP_W * inset);
-    int inset_h = int(STEP_H * inset);
-
-    for( int h = 0; h < this._height ; h++ ){
-      for( int w = 0 ; w < this._width; w++ ){
-        PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
-        Cell current_cell = _cells.get(h).get(w);
-        
-        if( current_cell == null || current_cell.links().isEmpty() )
-            continue;
-        
-        // cell coordinates with inset
-        float x1 = origin.x, x4 = origin.x + STEP_W;
-        float x2 = x1 + inset_w, x3 = x4 - inset_w;
-        float y1 = origin.y, y4 = origin.y + STEP_H;
-        float y2 = y1 + inset_h, y3 = y4 - inset_h;
-       
-        _palette.colorizeRowCol(current_cell.pos);
-        if( current_cell.links().contains(current_cell.up) ) {
-          line( x2, y1, x2, y2);
-          line( x3, y1, x3, y2);
-        }
-        else {
-          line( x2, y2, x3, y2);
-        }
-        
-        if( current_cell.links().contains( current_cell.down ) ){
-          line( x2, y3, x2, y4);
-          line( x3, y3, x3, y4);
-        }
-        else {
-          line( x2, y3, x3, y3);
-        }
-        
-        if( current_cell.links().contains( current_cell.left )) {
-          line( x1, y2, x2, y2);
-          line( x1, y3, x2, y3);
-        } else {
-          line( x2, y2, x2, y3);
-        }
-        
-        if( current_cell.links().contains( current_cell.right )) {
-          line( x3, y2, x4, y2);
-          line( x3, y3, x4, y3);
-        } else {
-          line( x3, y2, x3, y3);
-        }
-        
-      }
-    }
-  }
-
-  void onDrawWithoutInset() {
-
-    int MARGIN = 50;
-    int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
-    int STEP_H = (BOTTOM_ - TOP_) / this._height;
-    int STEP_W = (RIGHT_ - LEFT_) / this._width;
-
+    
+   
     for( int h = 0; h < this._height ; h++ ){
       for( int w = 0 ; w < this._width; w++ ){
         PVector origin = new PVector(LEFT_ + STEP_W * w, TOP_ + STEP_H * h);
@@ -171,17 +113,10 @@ class Grid {
           line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
       }
     }
-    
-  }
+    _startArrow.draw();
+    _finishArrow.draw();
   
-  void drawEndpoints(int LEFT_, int TOP_, int RIGHT_, int BOTTOM_, int STEP_W, int STEP_H) {
-    textSize(32);
-    textAlign(CENTER, CENTER);
-    fill(255, 0, 0);
-    text("S", LEFT_ + STEP_W/2, TOP_ + STEP_H/2);
-    fill(0, 255, 0);
-    text("F", RIGHT_ - STEP_W/2, BOTTOM_ - STEP_H/2);
-  }
+}
   
   Cell[] deadEnds(){
     ArrayList<Cell> deadends = new ArrayList<Cell>();

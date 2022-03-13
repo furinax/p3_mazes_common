@@ -1,10 +1,12 @@
 class HexGrid extends Grid {
-
+  int MARGIN = 10;
+  int CELL_SIZE = 20;
+    
   HexGrid(int rows, int cols) {
     _cells = new ArrayList<ArrayList<Cell>>(rows);
     this._height = rows;
     this._width = cols;
-    _palette = new Palette(_height, _width, color(0, 0, 0), color(0, 255, 0), color(0, 100, 255));
+    //_palette = new Palette(_height, _width, color(0, 0, 0), color(0, 255, 0), color(0, 100, 255));
     prepare();
     configure();
   }
@@ -47,11 +49,15 @@ class HexGrid extends Grid {
         
       }
     }
+    _startArrow = new Arrow(color(0, 255, 0), 
+       new PVector(CELL_SIZE , CELL_SIZE));
+       double hex_size = (CELL_SIZE * Math.sqrt(3));
+    _finishArrow = new Arrow(color(255, 0, 0), 
+      new PVector( (int)(hex_size * .85 * _cells.get(0).size()) + 35, (int)(hex_size * _cells.size()) + 25));
   }
   
 void onDraw(){
-    int MARGIN = 10;
-    int CELL_SIZE = int(.9*(min(height, width) - MARGIN * 2)/ max(this._height, this._width));
+    
     
     pushMatrix();
     translate(MARGIN, MARGIN);
@@ -105,6 +111,9 @@ void onDraw(){
 
       }
     }
+    
+      _startArrow.draw();
+    _finishArrow.draw();
     popMatrix();
   }
 
