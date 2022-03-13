@@ -58,43 +58,55 @@ void onDraw(){
     stroke(255);
     strokeWeight(2);
     noFill();
+    
+    boolean drawBackground = true;
 
-    for( int h = 0; h < _cells.size() ; h++ ){
-      for( int w = 0 ; w < _cells.get(h).size(); w++ ){
-        TriangleCell current_cell = (TriangleCell)this._cells.get(h).get(w);
-        _palette.colorizeRowCol(current_cell.pos);
-        
-        float cx = half_width + current_cell.pos.y * half_width;
-        float cy = half_height + current_cell.pos.x * cell_height;
-        
-        int west_x = int(cx - half_width);
-        int mid_x = int(cx);
-        int east_x = int(cx + half_width);
-        int apex_y, base_y;
-        if( current_cell.upright() ) {
-          apex_y = int(cy - half_height);
-          base_y = int(cy + half_height);
+    for( int i = 0; i < 2 ; i++, drawBackground = false) {
+      for( int h = 0; h < _cells.size() ; h++ ){
+        for( int w = 0 ; w < _cells.get(h).size(); w++ ){
+          TriangleCell current_cell = (TriangleCell)this._cells.get(h).get(w);
           
-        } else {
-          apex_y = int(cy + half_height);
-          base_y = int(cy - half_height);
+          
+          float cx = half_width + current_cell.pos.y * half_width;
+          float cy = half_height + current_cell.pos.x * cell_height;
+          
+          int west_x = int(cx - half_width);
+          int mid_x = int(cx);
+          int east_x = int(cx + half_width);
+          int apex_y, base_y;
+          if( current_cell.upright() ) {
+            apex_y = int(cy - half_height);
+            base_y = int(cy + half_height);
+            
+          } else {
+            apex_y = int(cy + half_height);
+            base_y = int(cy - half_height);
+          }
+          
+          if( drawBackground )
+          {
+            
+          }
+          else
+          {
+            _palette.colorizeRowCol(current_cell.pos);
+            
+            if( current_cell.left == null )
+              line(west_x, base_y, mid_x, apex_y);
+            
+            if( !current_cell.isLinked(current_cell.right) )
+              line(east_x, base_y, mid_x, apex_y);
+            
+            boolean no_south = current_cell.upright() && current_cell.down == null;
+            boolean not_linked = !current_cell.upright() && !current_cell.isLinked( current_cell.up );
+            
+            if( no_south || not_linked )
+            {
+              line( east_x, base_y, west_x, base_y);
+            }
+          }
         }
-        
-        if( current_cell.left == null )
-          line(west_x, base_y, mid_x, apex_y);
-        
-        if( !current_cell.isLinked(current_cell.right) )
-          line(east_x, base_y, mid_x, apex_y);
-        
-        boolean no_south = current_cell.upright() && current_cell.down == null;
-        boolean not_linked = !current_cell.upright() && !current_cell.isLinked( current_cell.up );
-        
-        if( no_south || not_linked )
-        {
-          line( east_x, base_y, west_x, base_y);
-        }
-        
-      }
+      }  
     }
     _startArrow.draw();
     _finishArrow.draw();

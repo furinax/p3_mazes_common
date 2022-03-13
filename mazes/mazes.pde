@@ -74,7 +74,7 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainPolarGrid();
+    g = obtainTriangleGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
