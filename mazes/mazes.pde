@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 Grid g;
 Distances d;
-Colorizer c;
+Colorizer colorizer;
 Mask mask;
 Palette palette = new RainbowPalette(30, 50, color(128, 255, 128), color(255, 255, 255), color(200,255,0));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
@@ -78,10 +78,7 @@ void setup(){
   
   try {
     g = obtainMaskedGrid();
-    //d = g.cells[0][0].distances();
-
-    // metrics
-    //print("Deadends : ", g.deadEnds().length , "/", mazeHeight * mazeWidth, " (", (int)(100*g.deadEnds().length / (mazeHeight * mazeWidth)), "%)");
+    colorizer = new Colorizer(g);
   }
   catch(Exception e) {
     e.printStackTrace();
@@ -139,7 +136,8 @@ void drawTrail() {
   for( int i = 0 ; i < mouseTrail.size() - 1 ; i++ ) {
     PVector p1 = mouseTrail.get(i);
     PVector p2 = mouseTrail.get(i + 1);
-   line(p1.x, p1.y, p2.x, p2.y);
+    if(dist(p1.x, p1.y, p2.x, p2.y) < 10)
+       line(p1.x, p1.y, p2.x, p2.y);
   }
 }
 
@@ -151,13 +149,20 @@ void update() {
 void draw() {
   background(0);
   g.onDraw();
+  //colorizer.onDraw();
   drawLogo();
-  drawTrail();
-  //c.onDraw();
+  //drawTrail();
   //update();
 
 }
 
 void mouseDragged() {
+  
+  if( mouseButton == RIGHT )
+  {
+    mouseTrail.clear();
+    return;
+  }
+  
   mouseTrail.add( new PVector(mouseX, mouseY) );
 }

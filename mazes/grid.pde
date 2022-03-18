@@ -7,12 +7,13 @@ class Grid {
   Palette _palette;
   Arrow _startArrow;
   Arrow _finishArrow;
+  Cell _selectedCell;
   
   int MARGIN = 50;
   int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
   int STEP_H;
   int STEP_W;
-    
+  int STROKEWEIGHT_ = 2;
   
   Grid() {
   }
@@ -69,6 +70,8 @@ class Grid {
   }
   
   void configure() {
+    
+    //init cells
     for( int h = 0; h < this._height ; h++ )
     {
       for( int w = 0 ; w < this._width; w++ ){
@@ -81,6 +84,13 @@ class Grid {
       }
     }
     
+    //set cell selection vars
+    _cells.get(0).get(0).isCurrent = true;
+    _cells.get(0).get(0).isVisited = true;
+    _selectedCell = _cells.get(0).get(0);
+    
+    
+    //init arrows
     _startArrow = new Arrow(color(0, 255, 0), 
        new PVector(MARGIN + STEP_W / 2, MARGIN + STEP_H / 2));
     _finishArrow = new Arrow(color(255, 0, 0), 
@@ -90,7 +100,7 @@ class Grid {
   
   void onDraw(){
     stroke(255);
-    strokeWeight(2);
+    strokeWeight(STROKEWEIGHT_);
     fill(255);
     
     
@@ -105,9 +115,32 @@ class Grid {
           
         //draw background
         noStroke();
+        int SELECTION_STROKE = 3;
+        
+        if( mousePressed && mouseButton == LEFT && mouseX < origin.x + STEP_W && mouseX > origin.x && mouseY < origin.y + STEP_H && mouseY > origin.y)
+        {
+          if( current_cell.isLinked(_selectedCell) || current_cell.isVisited)
+          {
+            _selectedCell.isCurrent = false;
+            current_cell.isVisited = true;
+            current_cell.isCurrent = true;
+            _selectedCell = current_cell;
+          }
+        }
+        
+        fill(255);        
         rect(origin.x, origin.y, STEP_W, STEP_H);
-          
-          
+        if( current_cell.isVisited )
+        {
+          if( current_cell.isCurrent )
+            fill(255, 255, 0);
+          else
+            fill(0, 0, 255);
+          rect(origin.x + SELECTION_STROKE, origin.y + SELECTION_STROKE, STEP_W-2*SELECTION_STROKE, STEP_H-2*SELECTION_STROKE);
+        }
+
+        
+        //draw boundaries of cell
         _palette.colorizeRowCol(current_cell.pos);
         if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
           line(origin.x, origin.y, origin.x+STEP_W, origin.y);

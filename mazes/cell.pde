@@ -4,6 +4,8 @@ class Cell {
   PVector pos;
   Cell up, down, left, right;
   HashMap<Cell, Boolean> links;
+  boolean isVisited = false;
+  boolean isCurrent = false;
   
   Cell(int x, int y){
     pos = new PVector(x, y);
