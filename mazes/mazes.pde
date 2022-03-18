@@ -8,14 +8,16 @@ Grid g;
 Distances d;
 Colorizer c;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(128, 0, 128), color(200, 0, 200), color(255,50,20));
+Palette palette = new RainbowPalette(30, 50, color(128, 255, 128), color(255, 255, 255), color(200,255,0));
+ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
-  int mazeHeight = 20;
-  int mazeWidth = 20;
+  int mazeHeight = 30;
+  int mazeWidth = 30;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new RecursiveBacktracker()).on(grid);
+  (new SideWinder2()).on(grid);
+  //grid.braid(0.5);
   return grid;
 }
 
@@ -23,6 +25,7 @@ Grid obtainWeaveGrid(){
   int mazeHeight = 20;
   int mazeWidth = 20;
   Grid grid = new WeaveGrid(mazeHeight, mazeWidth);
+  grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);
   return grid;
 }
@@ -74,7 +77,7 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainTriangleGrid();
+    g = obtainMaskedGrid();
     //d = g.cells[0][0].distances();
 
     // metrics
@@ -130,6 +133,16 @@ void drawLogo() {
   text("@mazes4fun", 25, height-10);
 }
 
+void drawTrail() {
+  strokeWeight(2);
+  stroke(150);
+  for( int i = 0 ; i < mouseTrail.size() - 1 ; i++ ) {
+    PVector p1 = mouseTrail.get(i);
+    PVector p2 = mouseTrail.get(i + 1);
+   line(p1.x, p1.y, p2.x, p2.y);
+  }
+}
+
 void update() {
   g._palette._c1 = int(#FF0000 * (.5 * sin(millis() / 5000.f) + .5));
   g._palette._c3 = int(#0000FF * (.5 * cos(millis() / 5000.f) + .5));
@@ -139,7 +152,12 @@ void draw() {
   background(0);
   g.onDraw();
   drawLogo();
+  drawTrail();
   //c.onDraw();
   //update();
 
+}
+
+void mouseDragged() {
+  mouseTrail.add( new PVector(mouseX, mouseY) );
 }

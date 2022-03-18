@@ -1,5 +1,6 @@
 class WeaveGrid extends Grid {
   ArrayList<UnderCell> underCells;
+  float inset = .1f;
   WeaveGrid(int rows, int columns) {
       super(rows, columns);
       underCells = new ArrayList<UnderCell>();
@@ -41,7 +42,11 @@ class WeaveGrid extends Grid {
     return retVal;
   }
   
-  void onDrawWithInset(float inset) {
+  void onDraw() {
+    stroke(255);
+    strokeWeight(2);
+    fill(255);
+    
     int MARGIN = 50;
     int LEFT_ = MARGIN, TOP_ = MARGIN, RIGHT_ = width - MARGIN, BOTTOM_ = height - MARGIN;
     int STEP_H = (BOTTOM_ - TOP_) / this._height;

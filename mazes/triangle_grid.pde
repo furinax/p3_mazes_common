@@ -85,7 +85,14 @@ void onDraw(){
           
           if( drawBackground )
           {
-            
+            fill(255);
+            beginShape();
+
+            vertex(west_x, base_y);
+            vertex(mid_x, apex_y);
+            vertex(east_x, base_y);
+
+            endShape(CLOSE);
           }
           else
           {
