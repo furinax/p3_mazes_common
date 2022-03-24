@@ -8,7 +8,7 @@ Grid g;
 Distances d;
 Colorizer colorizer;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(128, 255, 128), color(255, 255, 255), color(200,255,0));
+Palette palette = new RainbowPalette(30, 50, color(1, 5, 128), color(0, 115, 0), color(0,100,0));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
@@ -77,7 +77,7 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainMaskedGrid();
+    g = obtainPolarGrid();
     colorizer = new Colorizer(g);
   }
   catch(Exception e) {

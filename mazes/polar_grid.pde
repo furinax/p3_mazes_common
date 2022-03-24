@@ -67,6 +67,15 @@ class PolarGrid extends Grid {
     int inner_radius = _cells.size()  * CELL_SIZE;
     float theta_ccw = _cells.get(0).size()  * theta;
 
+
+    //set cell selection vars
+    int startX = _cells.size() - 1;
+    int startY = (_cells.get(_cells.size() - 1).size()-1)/2;
+    _cells.get(startX).get(startY).isCurrent = true;
+    _cells.get(startX).get(startY).isVisited = true;
+    _selectedCell = _cells.get(startX).get(startY);
+
+     //set start/finish arrows
      _startArrow = new Arrow(color(0, 255, 0), 
        new PVector(origin.x - int(inner_radius * cos(theta_ccw)), 
        origin.y - int(inner_radius * sin(theta_ccw))));
@@ -111,7 +120,6 @@ void onDraw(){
 
         if( current_cell == null  || current_cell.pos.x == 0)
           continue;
-        _palette.colorizeRow(current_cell.pos);
         
         float theta = 2*PI/_cells.get(h).size();
         int inner_radius = h * CELL_SIZE;
@@ -129,6 +137,34 @@ void onDraw(){
         float dy = origin.y + int(outer_radius * sin(theta_cw));
         
       
+        //draw background        
+        if( mouseX < Math.max(Math.max(ax, bx), Math.max(cx, dx)) && 
+        mouseY < Math.max(Math.max(ay, by), Math.max(cy, dy)) && 
+        mouseX > Math.min(Math.min(ax, bx), Math.min(cx, dx)) &&
+        mouseY > Math.min(Math.min(ay, by), Math.min(cy, dy)))
+        {
+          if( current_cell.isLinked(_selectedCell) || current_cell.isVisited)
+          {
+            _selectedCell.isCurrent = false;
+            current_cell.isVisited = true;
+            current_cell.isCurrent = true;
+            _selectedCell = current_cell;
+          }
+        }
+        
+        if( current_cell.isVisited )
+        {
+          noStroke();
+          if( current_cell.isCurrent )
+            fill(0, 165, 0);
+          else
+            fill(255, 0, 0);
+          circle(ax + CELL_SIZE/2, ay + CELL_SIZE/2, CELL_SIZE/2);
+        }
+        
+        noFill();
+        _palette.colorizeRow(current_cell.pos);
+        // draw boundaries
         if( current_cell.inward == null || !current_cell.links().contains(current_cell.inward))
           arc(origin.x, origin.y, 2*inner_radius, 2*inner_radius, theta_ccw, theta_cw);
         if( current_cell._outward.size() == 0 )

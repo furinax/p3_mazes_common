@@ -94,7 +94,7 @@ class Grid {
     _startArrow = new Arrow(color(0, 255, 0), 
        new PVector(MARGIN + STEP_W / 2, MARGIN + STEP_H / 2));
     _finishArrow = new Arrow(color(255, 0, 0), 
-      new PVector( STEP_W * this._width + MARGIN + STEP_W / 2, STEP_H * this._height + MARGIN + STEP_H / 2));
+      new PVector( STEP_W * this._width + MARGIN + STEP_W / 2, STEP_H * this._height + MARGIN + STEP_H / 2 + 20));
   }
 
   
@@ -133,7 +133,7 @@ class Grid {
         if( current_cell.isVisited )
         {
           if( current_cell.isCurrent )
-            fill(255, 255, 0);
+            fill(255, 165, 0);
           else
             fill(0, 0, 255);
           rect(origin.x + SELECTION_STROKE, origin.y + SELECTION_STROKE, STEP_W-2*SELECTION_STROKE, STEP_H-2*SELECTION_STROKE);
