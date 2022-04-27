@@ -8,7 +8,7 @@ Grid g;
 Distances d;
 Colorizer colorizer;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(1, 5, 128), color(0, 115, 0), color(0,100,0));
+Palette palette = new RainbowPalette(30, 50, color(200,200,255), color(150,150,255), color(175,175,255));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
@@ -30,6 +30,15 @@ Grid obtainWeaveGrid(){
   return grid;
 }
 
+Grid obtainDiamondGrid(){
+  int mazeHeight = 20;
+  int mazeWidth = 20;
+  Grid grid = new DiamondGrid(mazeHeight, mazeWidth);
+  grid._palette = palette;
+  (new RecursiveBacktracker()).on(grid);
+  return grid;
+}
+
 Grid obtainKruskalsGrid() {
   int mazeHeight = 20;
   int mazeWidth = 20;
@@ -46,7 +55,7 @@ Grid obtainKruskalsGrid() {
 }
 
 Grid obtainPolarGrid() {
-  int mazeRadius = 20;
+  int mazeRadius = 10;
   Grid grid = new PolarGrid(mazeRadius);
   grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);
@@ -69,7 +78,7 @@ Grid obtainTriangleGrid() {
   int mazeWidth = 50;
   Grid grid = new TriangleGrid(mazeHeight, mazeWidth);
   grid._palette = palette;
-  (new RecursiveBacktracker()).on(grid);
+  (new AlduousBroder()).on(grid);
   return grid;
 }
 
@@ -77,7 +86,10 @@ void setup(){
   size(800,600);
   
   try {
-    g = obtainPolarGrid();
+    // ***************************************************************************
+    g = obtainDiamondGrid();
+    // ***************************************************************************
+    
     colorizer = new Colorizer(g);
   }
   catch(Exception e) {

@@ -70,7 +70,7 @@ class PolarGrid extends Grid {
 
     //set cell selection vars
     int startX = _cells.size() - 1;
-    int startY = (_cells.get(_cells.size() - 1).size()-1)/2;
+    int startY = (_cells.get(_cells.size() - 1).size()-1)/2+1;
     _cells.get(startX).get(startY).isCurrent = true;
     _cells.get(startX).get(startY).isVisited = true;
     _selectedCell = _cells.get(startX).get(startY);
@@ -152,6 +152,8 @@ void onDraw(){
           }
         }
         
+        // TODO: dist(mouseX, mouseY, width/2, height/2) < CELL_SIZE / 2
+        
         if( current_cell.isVisited )
         {
           noStroke();
@@ -159,7 +161,7 @@ void onDraw(){
             fill(0, 165, 0);
           else
             fill(255, 0, 0);
-          circle(ax + CELL_SIZE/2, ay + CELL_SIZE/2, CELL_SIZE/2);
+          circle((ax+bx+cx+dx)/4 , (ay+by+cy+dy)/4, CELL_SIZE/2);
         }
         
         noFill();
