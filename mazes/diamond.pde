@@ -8,9 +8,9 @@ class DiamondGrid extends Grid {
       
     //init arrows
     _startArrow = new Arrow(color(0, 255, 0), 
-       new PVector(LEFT_, TOP_));
+       new PVector(LEFT_ - STEP_W / 2, TOP_ + STEP_H / 4));
     _finishArrow = new Arrow(color(255, 0, 0), 
-      new PVector( LEFT_, BOTTOM_));
+      new PVector( LEFT_ + STEP_W * 1.5, BOTTOM_ + STEP_H * 1.5));
   }
  
   

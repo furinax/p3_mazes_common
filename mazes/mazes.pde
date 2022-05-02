@@ -8,7 +8,7 @@ Grid g;
 Distances d;
 Colorizer colorizer;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(200,200,255), color(150,150,255), color(175,175,255));
+Palette palette = new RainbowPalette(30, 50, color(200,100,100), color(255,255,100), color(255,175,0));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
@@ -16,7 +16,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 30;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new SideWinder2()).on(grid);
+  (new SimplifiedPrims()).on(grid);
   //grid.braid(0.5);
   return grid;
 }
@@ -35,7 +35,7 @@ Grid obtainDiamondGrid(){
   int mazeWidth = 20;
   Grid grid = new DiamondGrid(mazeHeight, mazeWidth);
   grid._palette = palette;
-  (new RecursiveBacktracker()).on(grid);
+  (new HuntAndKill()).on(grid);
   return grid;
 }
 
@@ -87,7 +87,7 @@ void setup(){
   
   try {
     // ***************************************************************************
-    g = obtainDiamondGrid();
+    g = obtainMaskedGrid();
     // ***************************************************************************
     
     colorizer = new Colorizer(g);
