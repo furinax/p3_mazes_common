@@ -118,7 +118,7 @@ void onDraw(){
         
         PolarCell current_cell = (PolarCell)_cells.get(h).get(w);
 
-        if( current_cell == null  || current_cell.pos.x == 0)
+        if( current_cell == null )
           continue;
         
         float theta = 2*PI/_cells.get(h).size();
@@ -150,9 +150,18 @@ void onDraw(){
             current_cell.isCurrent = true;
             _selectedCell = current_cell;
           }
+        } else if( h == 0 && dist(mouseX, mouseY, origin.x, origin.y) < CELL_SIZE )
+        {
+          if( current_cell.isLinked(_selectedCell) || current_cell.isVisited)
+          {
+            _selectedCell.isCurrent = false;
+            current_cell.isVisited = true;
+            current_cell.isCurrent = true;
+            _selectedCell = current_cell;
+          }
+
         }
-        
-        // TODO: dist(mouseX, mouseY, width/2, height/2) < CELL_SIZE / 2
+       
         
         if( current_cell.isVisited )
         {
@@ -160,13 +169,19 @@ void onDraw(){
           if( current_cell.isCurrent )
             fill(0, 165, 0);
           else
-            fill(255, 0, 0);
-          circle((ax+bx+cx+dx)/4 , (ay+by+cy+dy)/4, CELL_SIZE/2);
+            fill(200, 200, 200);
+            
+          if( h == 0 ) // draw middle circle
+            circle( origin.x, origin.y, CELL_SIZE/2);
+          else
+            circle((ax+bx+cx+dx)/4 , (ay+by+cy+dy)/4, CELL_SIZE/2);
         }
         
         noFill();
         _palette.colorizeRow(current_cell.pos);
         // draw boundaries
+        if( current_cell.pos.x == 0)
+          continue;
         if( current_cell.inward == null || !current_cell.links().contains(current_cell.inward))
           arc(origin.x, origin.y, 2*inner_radius, 2*inner_radius, theta_ccw, theta_cw);
         if( current_cell._outward.size() == 0 )

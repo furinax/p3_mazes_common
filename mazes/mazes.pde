@@ -8,7 +8,7 @@ Grid g;
 Distances d;
 Colorizer colorizer;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(200,100,100), color(255,255,100), color(255,175,0));
+Palette palette = new RainbowPalette(30, 50, color(200,50,255), color(40,100,150), color(50,10,230));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
@@ -16,7 +16,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 30;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new SimplifiedPrims()).on(grid);
+  (new RecursiveBacktracker()).on(grid);
   //grid.braid(0.5);
   return grid;
 }
@@ -55,7 +55,7 @@ Grid obtainKruskalsGrid() {
 }
 
 Grid obtainPolarGrid() {
-  int mazeRadius = 10;
+  int mazeRadius = 20;
   Grid grid = new PolarGrid(mazeRadius);
   grid._palette = palette;
   (new RecursiveBacktracker()).on(grid);

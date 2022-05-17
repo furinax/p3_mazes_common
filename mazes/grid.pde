@@ -130,6 +130,7 @@ class Grid {
         
         fill(255);        
         rect(origin.x, origin.y, STEP_W, STEP_H);
+        /*
         if( current_cell.isVisited )
         {
           if( current_cell.isCurrent )
@@ -137,10 +138,58 @@ class Grid {
           else
             fill(0, 0, 255);
           rect(origin.x + SELECTION_STROKE, origin.y + SELECTION_STROKE, STEP_W-2*SELECTION_STROKE, STEP_H-2*SELECTION_STROKE);
-        }
+        }*/
 
         
         //draw boundaries of cell
+        stroke(0);
+        
+        if(current_cell.links().contains(current_cell.up) 
+        && current_cell.links().contains(current_cell.right) 
+        && !current_cell.links().contains(current_cell.down) 
+        && !current_cell.links().contains(current_cell.left) )
+        {
+            arc(origin.x + STEP_W, origin.y, STEP_W * 2, STEP_H * 2, HALF_PI,  PI);
+        }
+        else if(current_cell.links().contains(current_cell.up) 
+        && current_cell.links().contains(current_cell.left) 
+        && !current_cell.links().contains(current_cell.down) 
+        && !current_cell.links().contains(current_cell.right) )
+        {
+            arc(origin.x, origin.y, STEP_W * 2, STEP_H * 2, 0,  HALF_PI);
+        }
+        else if(current_cell.links().contains(current_cell.down) 
+        && current_cell.links().contains(current_cell.left) 
+        && !current_cell.links().contains(current_cell.up) 
+        && !current_cell.links().contains(current_cell.right) )
+        {
+            arc(origin.x, origin.y + STEP_H, STEP_W * 2, STEP_H * 2, 3 * HALF_PI,  2 * PI);
+        }
+        else if(current_cell.links().contains(current_cell.down) 
+        && current_cell.links().contains(current_cell.right) 
+        && !current_cell.links().contains(current_cell.up) 
+        && !current_cell.links().contains(current_cell.left) )
+        {
+            arc(origin.x + STEP_W, origin.y + STEP_H, STEP_W * 2, STEP_H * 2, PI , 3 * HALF_PI);
+        }
+        else if(current_cell.links().contains(current_cell.up) 
+        && current_cell.links().contains(current_cell.down) 
+        && !current_cell.links().contains(current_cell.right) 
+        && !current_cell.links().contains(current_cell.left) )
+        {
+            line(origin.x, origin.y, origin.x, origin.y+STEP_H);
+            line(origin.x+STEP_W, origin.y, origin.x+STEP_W, origin.y+STEP_H);
+        }
+        else if(current_cell.links().contains(current_cell.left) 
+        && current_cell.links().contains(current_cell.right) 
+        && !current_cell.links().contains(current_cell.up) 
+        && !current_cell.links().contains(current_cell.down) )
+        {
+            line(origin.x, origin.y, origin.x+STEP_W, origin.y);
+            line(origin.x, origin.y+STEP_H, origin.x+STEP_W, origin.y+STEP_H);
+        }
+        
+        
         _palette.colorizeRowCol(current_cell.pos);
         if( current_cell.up == null || !current_cell.links().contains(current_cell.up))
           line(origin.x, origin.y, origin.x+STEP_W, origin.y);
