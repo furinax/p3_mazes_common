@@ -13,7 +13,6 @@ class TruePrims {
     }
     while( !active.isEmpty() )
     {
-      print(active.size() + " ");
       Cell cell = getMin(active, costs);
       ArrayList<Cell> availableNeighbors = new ArrayList<Cell>();
       for( Cell c : cell.neighbors() )
@@ -37,12 +36,18 @@ class TruePrims {
   
   Cell getMin(ArrayList<Cell> active ,HashMap<Cell, Float> costs) {
     
-   Collections.sort(active, new Comparator<Cell>() {
-     public int compare(Cell c1, Cell c2) {
-       return costs.get(c1).compareTo(costs.get(c2));
-     }
-   });
-    return (Cell) active.get(0);
+    Cell localMin = null;
+    for( Cell c : active ) {
+      if( localMin == null )
+      {
+        localMin = c;
+      }
+      else if( costs.get(localMin) > costs.get(c) )
+      {
+        localMin = c;
+      }
+    }
+    return localMin;
   }
   
   Cell getMinNeighbor(ArrayList<Cell> neighbors, HashMap<Cell, Float> costs) {

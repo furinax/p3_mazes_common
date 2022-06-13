@@ -8,7 +8,7 @@ Grid g;
 Distances d;
 Colorizer colorizer;
 Mask mask;
-Palette palette = new RainbowPalette(30, 50, color(100,200,0), color(0,100,255), color(20,150,50));
+Palette palette = new RainbowPalette(30, 50, color(200,200,0), color(200,100,255), color(20,150,250));
 ArrayList<PVector> mouseTrail = new ArrayList<PVector>();
 
 Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
@@ -16,7 +16,7 @@ Grid obtainMaskedGrid() throws FileNotFoundException, IOException{
   int mazeWidth = 30;
   mask = initializeMaskFromImage("C:\\Users\\Lightspeed\\Documents\\Processing3\\p3_mazes_common\\mazes\\full.png", mazeHeight, mazeWidth);
   Grid grid = new MaskedGrid(mask);
-  (new TruePrims()).on(grid);
+  (new GrowingTree()).on(grid);
   //grid.braid(0.5);
   return grid;
 }
@@ -26,7 +26,7 @@ Grid obtainWeaveGrid(){
   int mazeWidth = 20;
   Grid grid = new WeaveGrid(mazeHeight, mazeWidth);
   grid._palette = palette;
-  (new TruePrims()).on(grid);
+  (new GrowingTree()).on(grid);
   return grid;
 }
 
@@ -87,7 +87,7 @@ void setup(){
   
   try {
     // ***************************************************************************
-    g = obtainMaskedGrid();
+    g = obtainWeaveGrid();
     // ***************************************************************************
     
     colorizer = new Colorizer(g);
